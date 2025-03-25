@@ -13,7 +13,7 @@ namespace ReadyPlayerMe.PhotonSupport
         [SerializeField] private Button maleButton;
         [SerializeField] private Button femaleButton;
         const string maleUrl = "https://models.readyplayer.me/67e2f06214094ba17ca45cdd.glb";
-        const string femaleUrl = "https://models.readyplayer.me/67e2f08dbe3335bbacea6386.glb";
+        const string femaleUrl = "https://models.readyplayer.me/67e31203c5f8c4a7798f9375.glb";
         string createPlayer;
 
         private void Awake()
