@@ -12,7 +12,6 @@ namespace ReadyPlayerMe.PhotonSupport
         [SerializeField] private GameObject UI;
         [SerializeField] private Button maleButton;
         [SerializeField] private Button femaleButton;
-        [SerializeField] private InputField inputField;
         const string maleUrl = "https://models.readyplayer.me/67e2f06214094ba17ca45cdd.glb";
         const string femaleUrl = "https://models.readyplayer.me/67e2f08dbe3335bbacea6386.glb";
         string createPlayer;
