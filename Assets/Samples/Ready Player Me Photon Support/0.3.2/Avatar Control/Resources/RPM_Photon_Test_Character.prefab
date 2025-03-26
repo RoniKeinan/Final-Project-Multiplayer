@@ -120,6 +120,12 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 2
     Name: Walking
+  - Type: 9
+    SynchronizeType: 0
+    Name: Dancing
+  - Type: 9
+    SynchronizeType: 0
+    Name: Jump
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0

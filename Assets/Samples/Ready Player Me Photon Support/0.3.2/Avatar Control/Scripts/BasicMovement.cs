@@ -13,6 +13,7 @@ namespace ReadyPlayerMe.PhotonSupport
         private Rigidbody rigidbody; // Ensure there's a Rigidbody component attached
 
         private readonly static int WALK_ANIM = Animator.StringToHash("Walking");
+
         private bool isGrounded = true; // To check if the player is on the ground
 
         private void Awake()
@@ -30,6 +31,8 @@ namespace ReadyPlayerMe.PhotonSupport
             {
                 HandleMovement();
                 HandleJump();
+                HandleDancing();
+
             }
         }
 
@@ -48,8 +51,17 @@ namespace ReadyPlayerMe.PhotonSupport
         {
             if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
             {
-                rigidbody.AddForce(new Vector3(0, 5.0f, 0), ForceMode.Impulse);
                 isGrounded = false; // Reset in OnCollisionEnter
+                animator.SetTrigger("Jump");
+
+            }
+        }
+
+        private void HandleDancing()
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                animator.SetTrigger("Dancing");
             }
         }
 
