@@ -13,7 +13,7 @@ namespace Convai.Scripts.Runtime.Addons
         private void Awake()
         {
 #if ENABLE_INPUT_SYSTEM
-            if (FindObjectOfType<InputSystemUIInputModule>() == null) gameObject.AddComponent<InputSystemUIInputModule>();
+            if (FindFirstObjectByType<InputSystemUIInputModule>() == null) gameObject.AddComponent<InputSystemUIInputModule>();
 #elif ENABLE_LEGACY_INPUT_MANAGER
             if (FindObjectOfType<StandaloneInputModule>() == null)
             {

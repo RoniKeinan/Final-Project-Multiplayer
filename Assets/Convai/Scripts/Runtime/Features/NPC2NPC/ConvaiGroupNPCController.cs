@@ -30,11 +30,19 @@ namespace Convai.Scripts.Runtime.Features
         /// </summary>
         private void Start()
         {
-            _npcGroup = NPC2NPCConversationManager.Instance.npcGroups.Find(c => c.BelongToGroup(this));
-            otherNPC = _npcGroup.GroupNPC1 == this ? _npcGroup.GroupNPC2 : _npcGroup.GroupNPC1;
+     
+            //otherNPC = _npcGroup.GroupNPC1 == this ? _npcGroup.GroupNPC2 : _npcGroup.GroupNPC1;
+
             _checkPlayerVicinityCoroutine = StartCoroutine(CheckPlayerVicinity());
-            if (TryGetComponent(out ConvaiNPCAudioManager convaiNPCAudio)) convaiNPCAudio.OnAudioTranscriptAvailable += HandleAudioTranscriptAvailable;
+
+            if (TryGetComponent(out ConvaiNPCAudioManager convaiNPCAudio))
+            {
+                convaiNPCAudio.OnAudioTranscriptAvailable += HandleAudioTranscriptAvailable;
+            }
+
+            
         }
+
 
         /// <summary>
         ///     Unsubscribes to the events and stops the coroutine
@@ -117,6 +125,7 @@ namespace Convai.Scripts.Runtime.Features
                         OnPlayerVicinityChanged?.Invoke(isPlayerCurrentlyNear, this);
                         previousState = isPlayerCurrentlyNear; // Update the previous state
                         ConvaiLogger.Info($"Player is currently near {ConvaiNPC.characterName}: {isPlayerCurrentlyNear}", ConvaiLogger.LogCategory.Character);
+                        
                     }
 
                     previousPlayerPosition = currentPlayerPosition; // Update the player's previous position
@@ -126,6 +135,8 @@ namespace Convai.Scripts.Runtime.Features
                 yield return new WaitForSeconds(0.5f);
             }
         }
+
+
 
         /// <summary>
         ///     Sends the text to the other NPC in the group

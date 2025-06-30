@@ -312,6 +312,7 @@ namespace Convai.Scripts.Runtime.Core
 
         private void HandleAudioTranscriptAvailable(string transcript)
         {
+           
             if (isCharacterActive) _convaiChatUIHandler.SendCharacterText(characterName, transcript);
         }
 
