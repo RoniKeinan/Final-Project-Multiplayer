@@ -58,7 +58,7 @@ namespace ReadyPlayerMe.PhotonSupport
             Debug.Log("Joined room");
             
             UI.SetActive(false);
-            GameObject character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", Vector3.zero, Quaternion.identity);
+            GameObject character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", new Vector3(0, 5, 0), Quaternion.identity);
             character.GetComponent<NetworkPlayer>().LoadAvatar(createPlayer);
 
             convaiCamera.enabled = true;
@@ -69,9 +69,17 @@ namespace ReadyPlayerMe.PhotonSupport
                 followScript = convaiCamera.gameObject.AddComponent<ConvaiCameraFollow>();
             }
             followScript.target = character.transform;
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+
         }
 
-        
+
+
+
     }
 }
 #endif
