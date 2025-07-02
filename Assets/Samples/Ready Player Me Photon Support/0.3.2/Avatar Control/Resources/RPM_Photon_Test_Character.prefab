@@ -24,6 +24,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RPM_Photon_Test_Character
       objectReference: {fileID: 0}
+    - target: {fileID: 1192642991364198764, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 4966848068884174078, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
       propertyPath: m_SynchronizeParameters.Array.data[0].SynchronizeType
       value: 2
