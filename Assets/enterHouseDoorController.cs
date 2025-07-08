@@ -23,6 +23,8 @@ public class enterHouseDoorController : MonoBehaviour
         // Save the original closed rotation
         closedRotation = doorTransform.rotation;
 
+      
+
         // Define the open rotation (90 degrees less on Y axis)
         openRotation = Quaternion.Euler(doorTransform.eulerAngles.x, doorTransform.eulerAngles.y - 90f, doorTransform.eulerAngles.z);
 
@@ -57,6 +59,7 @@ public class enterHouseDoorController : MonoBehaviour
             openProgress += Time.deltaTime * openSpeed;
             openProgress = Mathf.Clamp01(openProgress);
             doorTransform.rotation = Quaternion.Lerp(closedRotation, openRotation, openProgress);
+           
         }
     }
 
