@@ -13,9 +13,7 @@ public class enterHouseDoorController : MonoBehaviour
     private bool isOpening = false;
     private Quaternion closedRotation;
     private Quaternion openRotation;
-    private float openSpeed = 2f;
 
-    private float openProgress = 0f;
     [SerializeField] private Animator door_animator;
 
     void Start()
