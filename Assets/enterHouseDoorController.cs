@@ -16,7 +16,7 @@ public class enterHouseDoorController : MonoBehaviour
     private float openSpeed = 2f;
 
     private float openProgress = 0f;
- 
+    [SerializeField] private Animator door_animator;
 
     void Start()
     {
@@ -40,6 +40,9 @@ public class enterHouseDoorController : MonoBehaviour
             isOpening = true;
             CodePanel.SetActive(false);
             Debug.Log("Correct code entered! Door opening...");
+            door_animator.enabled = true;
+            safeCode = " ";
+            isOpening = false;
         }
 
         if (codeTextValue.Length >= 4)
@@ -54,12 +57,16 @@ public class enterHouseDoorController : MonoBehaviour
             Debug.Log("Player pressed E near door. Showing code panel.");
         }
 
+        //if (isOpening)
+        //{
+        //    openProgress += Time.deltaTime * openSpeed;
+        //    openProgress = Mathf.Clamp01(openProgress);
+        //    doorTransform.rotation = Quaternion.Lerp(closedRotation, openRotation, openProgress);
+
+        //}
         if (isOpening)
         {
-            openProgress += Time.deltaTime * openSpeed;
-            openProgress = Mathf.Clamp01(openProgress);
-            doorTransform.rotation = Quaternion.Lerp(closedRotation, openRotation, openProgress);
-           
+            
         }
     }
 

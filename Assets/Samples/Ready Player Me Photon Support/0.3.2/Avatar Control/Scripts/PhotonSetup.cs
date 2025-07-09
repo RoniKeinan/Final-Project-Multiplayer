@@ -17,7 +17,7 @@ namespace ReadyPlayerMe.PhotonSupport
         const string femaleUrl = "https://models.readyplayer.me/67e31203c5f8c4a7798f9375.glb";
         string createPlayer;
 
-        [SerializeField] private Camera convaiCamera;
+        public Camera convaiCamera;
 
         private void Awake()
         {
@@ -60,8 +60,6 @@ namespace ReadyPlayerMe.PhotonSupport
             UI.SetActive(false);
             GameObject character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", new Vector3(0, 5, 0), Quaternion.identity);
             character.GetComponent<NetworkPlayer>().LoadAvatar(createPlayer);
-
-            convaiCamera.enabled = true;
 
             var followScript = convaiCamera.GetComponent<ConvaiCameraFollow>();
             if (followScript == null)

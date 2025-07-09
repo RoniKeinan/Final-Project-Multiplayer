@@ -47,3 +47,4 @@ MonoBehaviour:
   UI: {fileID: 0}
   maleButton: {fileID: 0}
   femaleButton: {fileID: 0}
+  convaiCamera: {fileID: 0}

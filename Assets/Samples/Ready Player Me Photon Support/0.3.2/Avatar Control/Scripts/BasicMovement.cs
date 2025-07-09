@@ -6,7 +6,7 @@ namespace ReadyPlayerMe.PhotonSupport
 {
     public class BasicMovement : MonoBehaviour
     {
-        [SerializeField] private new GameObject camera;
+        public GameObject camera;
 
         private Animator animator;
         private PhotonView photonView;
@@ -22,7 +22,11 @@ namespace ReadyPlayerMe.PhotonSupport
             photonView = GetComponent<PhotonView>();
             rigidbody = GetComponent<Rigidbody>(); // Get the Rigidbody component
 
-            if (photonView.IsMine) camera.SetActive(true);
+            if (photonView.IsMine)
+            {
+                camera.SetActive(true);
+                FindFirstObjectByType<PhotonSetup>().convaiCamera.enabled = true;
+            }
         }
 
         private void Update()
