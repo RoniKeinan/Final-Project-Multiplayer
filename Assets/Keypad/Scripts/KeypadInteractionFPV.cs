@@ -6,8 +6,17 @@ namespace NavKeypad {
 public class KeypadInteractionFPV : MonoBehaviour
 {
     private Camera cam;
+    public GameObject keypad;
+        public Vector3 originalScale;
+
     private void Awake() => cam = Camera.main;
-    private void Update()
+
+        private void Start()
+        {
+            originalScale = keypad.transform.localScale;
+        }
+
+        private void Update()
     {
         var ray = cam.ScreenPointToRay(Input.mousePosition);
 
@@ -18,7 +27,13 @@ public class KeypadInteractionFPV : MonoBehaviour
                 if (hit.collider.TryGetComponent(out KeypadButton keypadButton))
                 {
                     keypadButton.PressButton();
+                    keypad.transform.localScale = new Vector3(2, 2, 2);
+
                 }
+            }
+            else
+            {
+                keypad.transform.localScale = originalScale;
             }
         }
     }

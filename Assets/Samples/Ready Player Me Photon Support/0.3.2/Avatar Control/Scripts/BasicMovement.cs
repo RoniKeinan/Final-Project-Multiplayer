@@ -6,12 +6,10 @@ namespace ReadyPlayerMe.PhotonSupport
 {
     public class BasicMovement : MonoBehaviour
     {
-        public GameObject camera;
-
         private Animator animator;
         private PhotonView photonView;
         private Rigidbody rigidbody; // Ensure there's a Rigidbody component attached
-
+        public GameObject m_camera;
         private readonly static int WALK_ANIM = Animator.StringToHash("Walking");
 
         private bool isGrounded = true; // To check if the player is on the ground
@@ -22,11 +20,7 @@ namespace ReadyPlayerMe.PhotonSupport
             photonView = GetComponent<PhotonView>();
             rigidbody = GetComponent<Rigidbody>(); // Get the Rigidbody component
 
-            if (photonView.IsMine)
-            {
-                camera.SetActive(true);
-                FindFirstObjectByType<PhotonSetup>().convaiCamera.enabled = true;
-            }
+          
         }
 
         private void Update()
@@ -36,6 +30,10 @@ namespace ReadyPlayerMe.PhotonSupport
                 HandleMovement();
                 HandleJump();
                 HandleDancing();
+                GameObject cam = FindAnyObjectByType<PhotonSetup>().convaiCamera.gameObject;
+                cam.transform.SetParent(transform);
+                cam.transform.position = m_camera.transform.position;
+                cam.transform.rotation = m_camera.transform.rotation;
 
             }
         }

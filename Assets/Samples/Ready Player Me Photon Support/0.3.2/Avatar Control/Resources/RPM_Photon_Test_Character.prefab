@@ -9,6 +9,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -9194329531283158706, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
+      propertyPath: sceneViewId
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -9194329531283158706, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
       propertyPath: ObservedComponents.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -42,7 +46,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7968283499595012214, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.115
       objectReference: {fileID: 0}
     - target: {fileID: 7968283499595012214, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -208,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472d675b6d2018641a5dfa047c798263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 420820375263432790}
+  m_camera: {fileID: 420820375263432790}
 --- !u!136 &3784076334185469101
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -25,6 +25,7 @@ namespace ReadyPlayerMe.PhotonSupport
             femaleButton.onClick.AddListener(OnButtonClickedFemale);
             PhotonNetwork.AutomaticallySyncScene = true;
             convaiCamera = FindFirstObjectByType<Camera>()?.GetComponent<Camera>();
+            DontDestroyOnLoad(gameObject);
         }
         
         private void OnButtonClickedMale()
@@ -61,12 +62,12 @@ namespace ReadyPlayerMe.PhotonSupport
             GameObject character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", new Vector3(0, 5, 0), Quaternion.identity);
             character.GetComponent<NetworkPlayer>().LoadAvatar(createPlayer);
 
-            var followScript = convaiCamera.GetComponent<ConvaiCameraFollow>();
-            if (followScript == null)
-            {
-                followScript = convaiCamera.gameObject.AddComponent<ConvaiCameraFollow>();
-            }
-            followScript.target = character.transform;
+            //var followScript = convaiCamera.GetComponent<ConvaiCameraFollow>();
+            //if (followScript == null)
+            //{
+            //    followScript = convaiCamera.gameObject.AddComponent<ConvaiCameraFollow>();
+            //}
+            //followScript.target = character.transform;
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
