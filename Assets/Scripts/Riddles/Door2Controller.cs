@@ -1,43 +1,28 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class Door2Controller : MonoBehaviour
+public class Door2Controller : MonoBehaviourPun
 {
-    [SerializeField] private Transform doorTransform;
-    private Quaternion closedRotation;
-    private Quaternion openRotation;
-    [SerializeField] private Animator door_animator;
+    [SerializeField] private Animator doorAnimator;
 
+    private bool isOpened = false;
 
-    private float openSpeed = 2f;
-    private float openProgress = 0f;
-    private bool isOpening = false;
-
-    void Start()
+    public void TryOpenDoor()
     {
-        closedRotation = doorTransform.rotation;
-        openRotation = Quaternion.Euler(
-            doorTransform.eulerAngles.x,
-            doorTransform.eulerAngles.y - 90f,
-            doorTransform.eulerAngles.z
-        );
-    }
-
-    void Update()
-    {
-        if (isOpening)
+        if (!isOpened)
         {
-            openProgress += Time.deltaTime * openSpeed;
-            openProgress = Mathf.Clamp01(openProgress);
-            doorTransform.rotation = Quaternion.Lerp(closedRotation, openRotation, openProgress);
+            photonView.RPC("OpenDoor", RpcTarget.AllBuffered);
         }
     }
 
+    [PunRPC]
     public void OpenDoor()
     {
-        if (!isOpening)
-        {
-            isOpening = true;
-            Debug.Log("Door is now opening via rotation.");
-        }
+        if (isOpened)
+            return;
+
+        isOpened = true;
+        doorAnimator.SetBool("isOpen", true); // trigger Animator
+        Debug.Log("Door opened via Animator + RPC.");
     }
 }

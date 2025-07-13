@@ -21,7 +21,7 @@ public class SkullPuzzleManager : MonoBehaviour
         }
 
         Debug.Log("All skulls facing forward! Opening door.");
-        door.OpenDoor();
+        door.TryOpenDoor();
     }
 
 }
