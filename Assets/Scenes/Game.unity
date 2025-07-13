@@ -5814,6 +5814,7 @@ GameObject:
   - component: {fileID: 4529475922101662885}
   - component: {fileID: 1296285905138102135}
   - component: {fileID: 810253815434995247}
+  - component: {fileID: 5039431267206478630}
   m_Layer: 0
   m_Name: Door04_pr
   m_TagString: Untagged
@@ -6339,7 +6340,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 126482273673433749}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 683be3b29670ad449b6eb71f5cfdd323, type: 2}
   m_CullingMode: 0
@@ -8588,7 +8589,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6237512266950659958}
         m_TargetAssemblyTypeName: DoorController01_pr, Assembly-CSharp
-        m_MethodName: OpenDoor
+        m_MethodName: TryOpenDoor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9814,6 +9815,28 @@ LODGroup:
     renderers:
     - renderer: {fileID: 126482273673433747}
   m_Enabled: 1
+--- !u!114 &5039431267206478630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126482273673433749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 3
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!23 &5046535862882297195
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15000,6 +15023,7 @@ GameObject:
   - component: {fileID: 1511016264593743319}
   - component: {fileID: 6237512266950659958}
   - component: {fileID: 6237512266950659959}
+  - component: {fileID: 6237512266950659960}
   m_Layer: 0
   m_Name: Door01_pr
   m_TagString: Untagged
@@ -15112,6 +15136,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6237512266950659960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6237512266950659953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 2
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!4 &6266759637067033420
 Transform:
   m_ObjectHideFlags: 0

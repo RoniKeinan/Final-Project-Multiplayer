@@ -1,7 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
-public class enterHouseDoorController : MonoBehaviour
+public class enterHouseDoorController : MonoBehaviourPun
 {
     [SerializeField] private TextMeshProUGUI CodeText;
     public string safeCode;
@@ -11,70 +12,53 @@ public class enterHouseDoorController : MonoBehaviour
     private string codeTextValue = "";
     private bool isAtDoor = false;
     private bool isOpening = false;
-    private Quaternion closedRotation;
-    private Quaternion openRotation;
 
     [SerializeField] private Animator door_animator;
 
     void Start()
     {
-        // Save the original closed rotation
-        closedRotation = doorTransform.rotation;
-
-      
-
-        // Define the open rotation (90 degrees less on Y axis)
-        openRotation = Quaternion.Euler(doorTransform.eulerAngles.x, doorTransform.eulerAngles.y - 90f, doorTransform.eulerAngles.z);
-
-        Debug.Log("Door Controller started. Closed rotation saved. Open rotation set.");
+        // Set door to start closed
+        door_animator.SetBool("isOpen", false);
+        Debug.Log("Door Controller initialized. Door is closed.");
     }
 
     void Update()
     {
         CodeText.text = codeTextValue;
 
+        // If correct code entered and not already opening
         if (codeTextValue == safeCode && !isOpening)
         {
             isOpening = true;
             CodePanel.SetActive(false);
-            Debug.Log("Correct code entered! Door opening...");
-            door_animator.enabled = true;
-            safeCode = " ";
-            isOpening = false;
+            Debug.Log("Correct code entered! Sending RPC to open door...");
+
+            // 🟡 Send RPC to open door for all players
+            photonView.RPC("OpenDoor", RpcTarget.All);
+
+            // Prevent re-triggering
+            codeTextValue = "";
         }
 
         if (codeTextValue.Length >= 4)
         {
-            Debug.Log("Code entered: " + codeTextValue + " - resetting input.");
+            Debug.Log("Code too long — resetting.");
             codeTextValue = "";
         }
 
         if (Input.GetKeyDown(KeyCode.E) && isAtDoor)
         {
             CodePanel.SetActive(true);
-            Debug.Log("Player pressed E near door. Showing code panel.");
-        }
-
-        //if (isOpening)
-        //{
-        //    openProgress += Time.deltaTime * openSpeed;
-        //    openProgress = Mathf.Clamp01(openProgress);
-        //    doorTransform.rotation = Quaternion.Lerp(closedRotation, openRotation, openProgress);
-
-        //}
-        if (isOpening)
-        {
-            
+            Debug.Log("E pressed — showing code panel.");
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"Trigger entered by object: {other.name} with tag: {other.tag}");
         if (other.CompareTag("Player"))
         {
             isAtDoor = true;
-            Debug.Log("Player entered door trigger.");
+            Debug.Log("Player near door.");
         }
     }
 
@@ -84,13 +68,21 @@ public class enterHouseDoorController : MonoBehaviour
         {
             isAtDoor = false;
             CodePanel.SetActive(false);
-            Debug.Log("Player left door trigger. Hiding code panel.");
+            Debug.Log("Player left door area.");
         }
     }
 
     public void AddDigit(string digit)
     {
         codeTextValue += digit;
-        Debug.Log("Digit added: " + digit + " | Current code: " + codeTextValue);
+        Debug.Log($"Digit added: {digit} | Current code: {codeTextValue}");
+    }
+
+    // 📡 Called across network
+    [PunRPC]
+    public void OpenDoor()
+    {
+        door_animator.SetBool("isOpen", true);
+        Debug.Log("Door opened via RPC.");
     }
 }
