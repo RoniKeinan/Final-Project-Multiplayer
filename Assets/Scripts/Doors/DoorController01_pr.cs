@@ -1,6 +1,7 @@
+using Photon.Pun;
 using UnityEngine;
 
-public class DoorController01_pr : MonoBehaviour
+public class DoorController01_pr : MonoBehaviourPun
 {
     public Animator doorAnimator;
 
@@ -10,11 +11,24 @@ public class DoorController01_pr : MonoBehaviour
         doorAnimator.SetBool("isOpen", true);
     }
 
+    public void TryOpenDoor()
+    {
+        // שולח לכולם (כולל לעצמי) לפתוח את הדלת
+        photonView.RPC("OpenDoor", RpcTarget.All);
+    }
+
+    public void TryCloseDoor()
+    {
+        photonView.RPC("CloseDoor", RpcTarget.All);
+    }
+
+    [PunRPC]
     public void OpenDoor()
     {
         doorAnimator.SetBool("isOpen", true);
     }
 
+    [PunRPC]
     public void CloseDoor()
     {
         doorAnimator.SetBool("isOpen", false);
