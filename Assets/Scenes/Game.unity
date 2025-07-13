@@ -7638,6 +7638,7 @@ GameObject:
   - component: {fileID: 2410952928504591587}
   - component: {fileID: 2410952928504591589}
   - component: {fileID: 2410952928504591588}
+  - component: {fileID: 2410952928504591590}
   m_Layer: 0
   m_Name: Door02_pr
   m_TagString: Untagged
@@ -7845,7 +7846,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2004693799350401903}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: d86fb65731d4dc6418c84a3b5e36deec, type: 2}
   m_CullingMode: 0
@@ -7871,8 +7872,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ed339cdfe901da4183825662c6e44c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorTransform: {fileID: 2004693799350401891}
-  door_animator: {fileID: 2410952928504591588}
+  doorAnimator: {fileID: 2410952928504591588}
+--- !u!114 &2410952928504591590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004693799350401903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 4
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!33 &2412627210938222888
 MeshFilter:
   m_ObjectHideFlags: 0
