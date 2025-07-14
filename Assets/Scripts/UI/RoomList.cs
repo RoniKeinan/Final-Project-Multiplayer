@@ -22,12 +22,16 @@ public class RoomList : MonoBehaviourPunCallbacks
     public GameObject startGameButton;
     public GameObject createRoomButton;
     public GameObject leaveeRoomButton;
+    public TextMeshProUGUI waitingText;
+
 
     public Transform playerListParent;
 
     [Header("Ready Status Sprites")]
     public Sprite readySprite;
     public Sprite notReadySprite;
+
+
 
 
     private List<RoomInfo> cachedRoomList = new List<RoomInfo>();
@@ -132,21 +136,24 @@ public class RoomList : MonoBehaviourPunCallbacks
     {
         Debug.Log("Joined room: " + PhotonNetwork.CurrentRoom.Name);
 
-        // Activate the in-room panel
+        roomListParent.gameObject.SetActive(false);  // Hide room list
         inRoomPanel.SetActive(true);
         createRoomButton.SetActive(false);
         leaveeRoomButton.SetActive(true);
 
         UpdatePlayerListUI();
-        // Show relevant buttons
+
         readyButton.SetActive(!PhotonNetwork.IsMasterClient);
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
 
-        // Create player list
-        UpdatePlayerListUI();
-
-        // Set self ready false
-        SetReady(false);
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            SetReady(false);
+        }
+        else
+        {
+            SetReady(true); //Force master to be marked as ready in properties
+        }
     }
 
 
@@ -171,12 +178,10 @@ public class RoomList : MonoBehaviourPunCallbacks
 
     private void UpdatePlayerListUI()
     {
-        // Clear old list
         foreach (Transform child in playerListParent)
             Destroy(child.gameObject);
         playerListItems.Clear();
 
-        // Rebuild list
         foreach (Player p in PhotonNetwork.PlayerList)
         {
             GameObject entry = Instantiate(playerListPrefab, playerListParent);
@@ -193,10 +198,20 @@ public class RoomList : MonoBehaviourPunCallbacks
                 statusImage.sprite = isReady ? readySprite : notReadySprite;
             }
 
+            playerListItems[p.ActorNumber] = entry;
+        }
+
+        // 🔢 Update waiting text
+        if (waitingText != null)
+        {
+            int current = PhotonNetwork.CurrentRoom.PlayerCount;
+            int max = PhotonNetwork.CurrentRoom.MaxPlayers;
+            waitingText.text = $"Waiting for players: {current} / {max}";
         }
 
         CheckStartGameCondition();
     }
+
 
     private void CheckStartGameCondition()
     {
@@ -251,9 +266,52 @@ public class RoomList : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         Debug.Log("Left room. Rejoining lobby...");
+
+        roomListParent.gameObject.SetActive(true);  // Show room list again
+        inRoomPanel.SetActive(false);
         leaveeRoomButton.SetActive(false);
         createRoomButton.SetActive(true);
-        UpdatePlayerListUI();
+
+        foreach (Transform child in playerListParent)
+            Destroy(child.gameObject);
+        playerListItems.Clear();
+
         PhotonNetwork.JoinLobby();
     }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log($"Player {otherPlayer.NickName} left the room.");
+
+        if (playerListItems.ContainsKey(otherPlayer.ActorNumber))
+        {
+            Destroy(playerListItems[otherPlayer.ActorNumber]);
+            playerListItems.Remove(otherPlayer.ActorNumber);
+        }
+
+        // Refresh UI
+        UpdatePlayerListUI();
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        Debug.Log($"New MasterClient is {newMasterClient.NickName} ({newMasterClient.ActorNumber})");
+
+        bool iAmMaster = PhotonNetwork.IsMasterClient;
+
+        readyButton.SetActive(!iAmMaster);
+        startGameButton.SetActive(iAmMaster);
+
+        // Force readiness for new master
+        if (iAmMaster)
+        {
+            SetReady(true);
+        }
+
+        CheckStartGameCondition();
+    }
+
+
+
+
 }
