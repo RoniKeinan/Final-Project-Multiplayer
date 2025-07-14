@@ -45,36 +45,36 @@ namespace ReadyPlayerMe.PhotonSupport
         }
 
 
-        public override void OnConnectedToMaster()
-        {
-            Debug.Log("Connected to master"); 
-                PhotonNetwork.NickName = createPlayer;
-                RoomOptions roomOptions = new RoomOptions();
-                roomOptions.MaxPlayers = 10;
-                PhotonNetwork.JoinOrCreateRoom("Ready Player Me", roomOptions, TypedLobby.Default);
-        }
+        //public override void OnConnectedToMaster()
+        //{
+        //    Debug.Log("Connected to master"); 
+        //        PhotonNetwork.NickName = createPlayer;
+        //        RoomOptions roomOptions = new RoomOptions();
+        //        roomOptions.MaxPlayers = 10;
+        //        PhotonNetwork.JoinOrCreateRoom("Ready Player Me", roomOptions, TypedLobby.Default);
+        //}
         
-        public override void OnJoinedRoom()
-        {
-            Debug.Log("Joined room");
+        //public override void OnJoinedRoom()
+        //{
+        //    Debug.Log("Joined room");
             
-            UI.SetActive(false);
-            GameObject character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", new Vector3(0, 5, 0), Quaternion.identity);
-            character.GetComponent<NetworkPlayer>().LoadAvatar(createPlayer);
+        //    UI.SetActive(false);
+        //    GameObject character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", new Vector3(0, 5, 0), Quaternion.identity);
+        //    character.GetComponent<NetworkPlayer>().LoadAvatar(createPlayer);
 
-            //var followScript = convaiCamera.GetComponent<ConvaiCameraFollow>();
-            //if (followScript == null)
-            //{
-            //    followScript = convaiCamera.gameObject.AddComponent<ConvaiCameraFollow>();
-            //}
-            //followScript.target = character.transform;
+        //    //var followScript = convaiCamera.GetComponent<ConvaiCameraFollow>();
+        //    //if (followScript == null)
+        //    //{
+        //    //    followScript = convaiCamera.gameObject.AddComponent<ConvaiCameraFollow>();
+        //    //}
+        //    //followScript.target = character.transform;
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Application.Quit();
-            }
+        //    if (Input.GetKeyDown(KeyCode.Escape))
+        //    {
+        //        Application.Quit();
+        //    }
 
-        }
+        //}
 
 
 
