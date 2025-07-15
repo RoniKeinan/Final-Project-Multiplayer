@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using ReadyPlayerMe.PhotonSupport;
 using System.Collections.Generic;
 using TMPro;
-using ExitGames.Client.Photon;
+using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -23,7 +24,7 @@ public class RoomList : MonoBehaviourPunCallbacks
     public GameObject createRoomButton;
     public GameObject leaveeRoomButton;
     public TextMeshProUGUI waitingText;
-
+    public int maxPlayers;
 
     public Transform playerListParent;
 
@@ -31,13 +32,20 @@ public class RoomList : MonoBehaviourPunCallbacks
     public Sprite readySprite;
     public Sprite notReadySprite;
 
-
+    public  List <CharItem> MaleCharacters = new();
+    public List<CharItem> FemaleCharacters = new();
 
 
     private List<RoomInfo> cachedRoomList = new List<RoomInfo>();
     private Dictionary<int, GameObject> playerListItems = new Dictionary<int, GameObject>();
 
     private const string READY_KEY = "IsReady";
+
+    private void Awake()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+
+    }
 
     void Start()
     {
@@ -63,7 +71,11 @@ public class RoomList : MonoBehaviourPunCallbacks
         leaveeRoomButton.SetActive(false);
 
     }
+    private void SelectCharacter(string url)
+    {
+        PlayerPrefs.SetString("charType", url);
 
+    }
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         foreach (RoomInfo roomInfo in roomList)
@@ -123,7 +135,7 @@ public class RoomList : MonoBehaviourPunCallbacks
 
             RoomOptions options = new RoomOptions
             {
-                MaxPlayers = 3,
+                MaxPlayers = maxPlayers,
                 IsVisible = true,
                 IsOpen = true
             };
@@ -245,7 +257,7 @@ public class RoomList : MonoBehaviourPunCallbacks
             // Load your game scene here
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
-            PhotonNetwork.LoadLevel("GameScene");
+            PhotonNetwork.LoadLevel("Game");
         }
     }
 
@@ -314,4 +326,18 @@ public class RoomList : MonoBehaviourPunCallbacks
 
 
 
+}
+
+[System.Serializable]
+public struct CharItem
+{
+    public CharType charType;
+    public string url;
+    public GameObject mesh;
+}
+[System.Serializable]
+public enum CharType
+{
+    Male,
+    Female
 }
