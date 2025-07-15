@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class LeverRotatorMultiState : MonoBehaviour
 {
-    public Transform leverPivot; // The object that rotates (e.g. the base of the lever)
+    public Transform leverPivot; // The rotating part of the lever
     public float speed = 3f;
 
-    // Full rotation vectors for each lever state
+    public int leverIndex; // 0 to 3
+    public int currentState = 0; // Range: 0 to 3
+    public LeverRiddle riddleManager;
+    public int maxStates = 4;
+
+    // Define lever angles for 4 states
     private Vector3[] rotationVectors = new Vector3[]
     {
         new Vector3(0f, 0f, 97.2789917f),
@@ -14,12 +19,10 @@ public class LeverRotatorMultiState : MonoBehaviour
         new Vector3(0f, 0f, 355.633057f)
     };
 
-    private int currentState = 0;
     private Quaternion targetRotation;
 
     void Start()
     {
-        // Start at the lowest position (rotationVectors[0])
         currentState = 0;
         targetRotation = Quaternion.Euler(rotationVectors[currentState]);
         leverPivot.localRotation = targetRotation;
@@ -27,22 +30,32 @@ public class LeverRotatorMultiState : MonoBehaviour
 
     void Update()
     {
-        // Click detection with raycast
+        // Detect click on this lever using raycast
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit) && hit.transform == this.transform)
             {
-                currentState = (currentState + 1) % rotationVectors.Length;
-                targetRotation = Quaternion.Euler(rotationVectors[currentState]);
+                ChangeLeverState();
             }
         }
 
-        // Smooth rotation towards target
+        // Smooth rotation
         leverPivot.localRotation = Quaternion.Lerp(
             leverPivot.localRotation,
             targetRotation,
             Time.deltaTime * speed
         );
+    }
+
+    void ChangeLeverState()
+    {
+        currentState = (currentState + 1) % rotationVectors.Length;
+        targetRotation = Quaternion.Euler(rotationVectors[currentState]);
+
+        Debug.Log($"Lever {leverIndex} is now at state {currentState}");
+
+        if (riddleManager != null)
+            riddleManager.CheckCombination();
     }
 }

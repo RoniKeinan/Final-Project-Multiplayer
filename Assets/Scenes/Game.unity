@@ -611,6 +611,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc9605b0d2902a849aeab83a50df8bdd, type: 3}
+--- !u!114 &252677220 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 239645441000692402, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+  m_PrefabInstance: {fileID: 394749830}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bce7588a2eed84cb4af9d540f11025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &258274677 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4185614764287014, guid: bebfb14ad739a1c48959e3ba26cfb2a3, type: 3}
@@ -1104,6 +1115,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5831017996850376518}
     m_Modifications:
+    - target: {fileID: 239645441000692402, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+      propertyPath: leverIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 239645441000692402, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+      propertyPath: riddleManager
+      value: 
+      objectReference: {fileID: 8618666774914206604}
     - target: {fileID: 454824386658430765, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
       propertyPath: m_Name
       value: YellowLever
@@ -2332,6 +2351,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5831017996850376516}
     m_Modifications:
+    - target: {fileID: 239645441000692402, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+      propertyPath: leverIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 239645441000692402, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+      propertyPath: riddleManager
+      value: 
+      objectReference: {fileID: 8618666774914206604}
     - target: {fileID: 454824386658430765, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
       propertyPath: m_Name
       value: GreenLever
@@ -3056,6 +3083,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8966620811591919761, guid: b004d4296cb6525488ebd6f8a10b078a, type: 3}
   m_PrefabInstance: {fileID: 2085703665}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &937185592 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 239645441000692402, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+  m_PrefabInstance: {fileID: 1606030434}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bce7588a2eed84cb4af9d540f11025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &957753119
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4638,6 +4676,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5831017996850376556}
     m_Modifications:
+    - target: {fileID: 239645441000692402, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+      propertyPath: leverIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 239645441000692402, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+      propertyPath: riddleManager
+      value: 
+      objectReference: {fileID: 8618666774914206604}
     - target: {fileID: 454824386658430765, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
       propertyPath: m_Name
       value: PinkLever
@@ -4838,6 +4884,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b324f35bcc808f04d91168616dd3434d, type: 3}
+--- !u!114 &1659529537 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 239645441000692402, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+  m_PrefabInstance: {fileID: 759481731}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bce7588a2eed84cb4af9d540f11025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1668159315
 GameObject:
   m_ObjectHideFlags: 0
@@ -5645,6 +5702,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5831017996850376514}
     m_Modifications:
+    - target: {fileID: 239645441000692402, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+      propertyPath: leverIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 239645441000692402, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+      propertyPath: riddleManager
+      value: 
+      objectReference: {fileID: 8618666774914206604}
     - target: {fileID: 454824386658430765, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
       propertyPath: m_Name
       value: BlueLever
@@ -5704,13 +5769,55 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 106195525797893057, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1897339682}
   m_SourcePrefab: {fileID: 100100000, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
 --- !u!4 &1897339679 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 552224537352914451, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
   m_PrefabInstance: {fileID: 1897339678}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1897339680 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1549543468081423834, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+  m_PrefabInstance: {fileID: 1897339678}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1897339681 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 106195525797893057, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+  m_PrefabInstance: {fileID: 1897339678}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1897339682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897339681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bce7588a2eed84cb4af9d540f11025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leverPivot: {fileID: 1897339680}
+  speed: 3
+  leverIndex: 2
+  currentState: 0
+  riddleManager: {fileID: 8618666774914206604}
+  maxStates: 4
+--- !u!114 &1897339683 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 239645441000692402, guid: ad2801bc4b880c54eb191bf1ebada322, type: 3}
+  m_PrefabInstance: {fileID: 1897339678}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897339681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bce7588a2eed84cb4af9d540f11025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1934239744
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6758,12 +6865,14 @@ GameObject:
   - component: {fileID: 157284600299327550}
   - component: {fileID: 157284600299327549}
   - component: {fileID: 8618666774914206603}
+  - component: {fileID: 8618666774914206604}
+  - component: {fileID: 8618666774914206605}
   m_Layer: 0
   m_Name: Door03_pr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 31
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!64 &157284600299327549
 MeshCollider:
@@ -17447,6 +17556,47 @@ LODGroup:
     renderers:
     - renderer: {fileID: 157284600299327550}
   m_Enabled: 1
+--- !u!114 &8618666774914206604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157284600299327548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe4bb8b318b2214aacdf097781ca3cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levers:
+  - {fileID: 1897339683}
+  - {fileID: 937185592}
+  - {fileID: 1659529537}
+  - {fileID: 252677220}
+  correctCombination: 02000000000000000300000001000000
+  door: {fileID: 157284600299327548}
+--- !u!95 &8618666774914206605
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157284600299327548}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5e08b09ffca404143a4da98df47fce24, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!23 &8620545824064725184
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17927,3 +18077,4 @@ SceneRoots:
   - {fileID: 1575264147}
   - {fileID: 1626133621}
   - {fileID: 898622015}
+  - {fileID: 1332831638}
