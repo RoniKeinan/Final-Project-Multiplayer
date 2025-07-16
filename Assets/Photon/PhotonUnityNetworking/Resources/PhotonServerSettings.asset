@@ -45,6 +45,8 @@ MonoBehaviour:
   - ChangeLeverStateRPC
   - RotateSkullRPC
   - RevealKeyToAll
+  - ShowKeyUI
+  - OpenChest
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

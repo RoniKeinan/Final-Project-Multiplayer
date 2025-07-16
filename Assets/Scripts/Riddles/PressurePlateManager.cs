@@ -32,20 +32,9 @@ public class PressurePlateManager : MonoBehaviourPun
         if (playersOnPlates.Count == PhotonNetwork.CurrentRoom.PlayerCount)
         {
             Debug.Log("✅ All players on plates! Revealing key.");
-            photonView.RPC("RevealKeyToAll", RpcTarget.All);
+            KeyUIController.instance.photonView.RPC("ShowKeyUI", RpcTarget.All);
         }
     }
 
-    [PunRPC]
-    void RevealKeyToAll()
-    {
-        if (keyPrefab != null)
-        {
-            Instantiate(keyPrefab, transform.position + Vector3.up * 2, Quaternion.identity);
-        }
-        else
-        {
-            Debug.LogWarning("Key prefab is not assigned!");
-        }
-    }
+  
 }
