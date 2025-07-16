@@ -7276,6 +7276,7 @@ GameObject:
   - component: {fileID: 33631231651789048}
   - component: {fileID: 23765399218139096}
   - component: {fileID: 64794803586123434}
+  - component: {fileID: 64794803586123435}
   m_Layer: 0
   m_Name: MiddleSkull
   m_TagString: Untagged
@@ -7296,6 +7297,7 @@ GameObject:
   - component: {fileID: 33631231539795596}
   - component: {fileID: 23765399261200812}
   - component: {fileID: 64794803630876894}
+  - component: {fileID: 64794803630876895}
   m_Layer: 0
   m_Name: LeftSkull
   m_TagString: Untagged
@@ -7316,6 +7318,7 @@ GameObject:
   - component: {fileID: 33631230689205671}
   - component: {fileID: 23765400172350087}
   - component: {fileID: 64794802367669237}
+  - component: {fileID: 64794802367669238}
   m_Layer: 0
   m_Name: RightSkull
   m_TagString: Untagged
@@ -7601,6 +7604,28 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 2dc514a2299c0a94b8818454e269a40b, type: 3}
+--- !u!114 &64794802367669238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734590217842267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 10
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!64 &64794803586123434
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7623,6 +7648,28 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 2dc514a2299c0a94b8818454e269a40b, type: 3}
+--- !u!114 &64794803586123435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734589527853828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 9
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!64 &64794803630876894
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7645,6 +7692,28 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 2dc514a2299c0a94b8818454e269a40b, type: 3}
+--- !u!114 &64794803630876895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734589619692912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 11
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &72617653333794571
 GameObject:
   m_ObjectHideFlags: 0
@@ -19099,13 +19168,3 @@ SceneRoots:
   - {fileID: 1316460564}
   - {fileID: 1575264147}
   - {fileID: 1332831638}
-  - {fileID: 1577749883}
-  - {fileID: 1114040580}
-  - {fileID: 1600812346}
-  - {fileID: 65284393}
-  - {fileID: 2089110258}
-  - {fileID: 782628375}
-  - {fileID: 40919614}
-  - {fileID: 1828601335}
-  - {fileID: 165585583}
-  - {fileID: 85050635}
