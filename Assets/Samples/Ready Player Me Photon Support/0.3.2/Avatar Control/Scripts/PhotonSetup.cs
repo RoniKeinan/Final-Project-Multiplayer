@@ -35,7 +35,7 @@ namespace ReadyPlayerMe.PhotonSupport
             Debug.Log("Joined room");
 
             UI.SetActive(true);
-            character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", new Vector3(0, 5, 0), Quaternion.identity);
+            character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", new Vector3(12, 5, -18), Quaternion.identity);
         }
 
         private void OnButtonClickedMale()
