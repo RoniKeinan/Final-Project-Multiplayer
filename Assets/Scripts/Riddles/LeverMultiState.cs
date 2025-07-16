@@ -1,16 +1,16 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class LeverRotatorMultiState : MonoBehaviour
+public class LeverRotatorMultiState : MonoBehaviourPun
 {
-    public Transform leverPivot; // The rotating part of the lever
+    public Transform leverPivot;
     public float speed = 3f;
 
-    public int leverIndex; // 0 to 3
-    public int currentState = 0; // Range: 0 to 3
+    public int leverIndex;
+    public int currentState = 0;
     public LeverRiddle riddleManager;
     public int maxStates = 4;
 
-    // Define lever angles for 4 states
     private Vector3[] rotationVectors = new Vector3[]
     {
         new Vector3(0f, 0f, 97.2789917f),
@@ -23,24 +23,22 @@ public class LeverRotatorMultiState : MonoBehaviour
 
     void Start()
     {
-        currentState = 0;
         targetRotation = Quaternion.Euler(rotationVectors[currentState]);
         leverPivot.localRotation = targetRotation;
     }
 
     void Update()
     {
-        // Detect click on this lever using raycast
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit) && hit.transform == this.transform)
             {
-                ChangeLeverState();
+                // Ask everyone to change this lever
+                photonView.RPC("ChangeLeverStateRPC", RpcTarget.All);
             }
         }
 
-        // Smooth rotation
         leverPivot.localRotation = Quaternion.Lerp(
             leverPivot.localRotation,
             targetRotation,
@@ -48,14 +46,18 @@ public class LeverRotatorMultiState : MonoBehaviour
         );
     }
 
-    void ChangeLeverState()
+    [PunRPC]
+    void ChangeLeverStateRPC()
     {
         currentState = (currentState + 1) % rotationVectors.Length;
         targetRotation = Quaternion.Euler(rotationVectors[currentState]);
 
         Debug.Log($"Lever {leverIndex} is now at state {currentState}");
 
-        if (riddleManager != null)
+        // Only MasterClient checks the full combination
+        if (PhotonNetwork.IsMasterClient && riddleManager != null)
+        {
             riddleManager.CheckCombination();
+        }
     }
 }
