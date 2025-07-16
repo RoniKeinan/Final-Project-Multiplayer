@@ -2189,7 +2189,7 @@ MonoBehaviour:
   createRoomButton: {fileID: 2010970851}
   leaveeRoomButton: {fileID: 703515598}
   waitingText: {fileID: 856909610}
-  maxPlayers: 1
+  maxPlayers: 3
   playerListParent: {fileID: 1498772517}
   readySprite: {fileID: 21300000, guid: a413f615478f11e47ab1f7eea05ea410, type: 3}
   notReadySprite: {fileID: 21300000, guid: 5d6395a451044a04aad7f7f6d3bd63a0, type: 3}
