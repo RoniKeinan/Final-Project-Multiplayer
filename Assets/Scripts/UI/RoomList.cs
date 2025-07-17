@@ -41,6 +41,7 @@ public class RoomList : MonoBehaviourPunCallbacks
     private const string READY_KEY = "IsReady";
     [SerializeField] private GameObject character;
     [SerializeField] private Transform spawnPos;
+    private float spacing = -1f;     // Horizontal distance between avatars
     [SerializeField] private int charIndex = 0;
     private void Awake()
     {
@@ -170,31 +171,35 @@ public class RoomList : MonoBehaviourPunCallbacks
     {
         Debug.Log("Joined room: " + PhotonNetwork.CurrentRoom.Name);
 
-        roomListParent.gameObject.SetActive(false);  // Hide room list
+        // --- UI setup (no changes) ---
+        roomListParent.gameObject.SetActive(false);
         inRoomPanel.SetActive(true);
         createRoomButton.SetActive(false);
         leaveeRoomButton.SetActive(true);
-
         UpdatePlayerListUI();
-
         readyButton.SetActive(!PhotonNetwork.IsMasterClient);
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+        if (!PhotonNetwork.IsMasterClient) SetReady(false);
+        else SetReady(true);
 
-        if (!PhotonNetwork.IsMasterClient)
-        {
-            SetReady(false);
-        }
-        else
-        {
-            SetReady(true); //Force master to be marked as ready in properties
-        }
+        // --- Calculate a unique spawn position for this player ---
+        // 1. Get the sorted list of players
+        Player[] players = PhotonNetwork.PlayerList;
+        // 2. Find my index in that list (0-based)
+        int myIndex = System.Array.IndexOf(players, PhotonNetwork.LocalPlayer);
+        // 3. Compute offset to the left (you can switch to Vector3.right if you prefer)
+        Vector3 offset = Vector3.left * (myIndex * spacing);
+        // 4. Final spawn position
+        Vector3 mySpawnPos = spawnPos.position + offset;
 
-        if (photonView.IsMine)
-        {
-            character = PhotonNetwork.Instantiate("RPM_Photon_naked", spawnPos.position, spawnPos.rotation);
-            SetCharacterView(Characters[charIndex]);
+        // --- Instantiate the avatar at the computed position ---
+        character = PhotonNetwork.Instantiate(
+            "RPM_Photon_naked",    // prefab name
+            mySpawnPos,            // calculated spawn position
+            spawnPos.rotation      // reuse spawnPos rotation
+        );
+        SetCharacterView(Characters[charIndex]);
         }
-    }
 
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
