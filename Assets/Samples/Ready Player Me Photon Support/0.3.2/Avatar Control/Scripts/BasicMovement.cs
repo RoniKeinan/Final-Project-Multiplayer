@@ -19,8 +19,16 @@ namespace ReadyPlayerMe.PhotonSupport
             animator = GetComponent<Animator>();
             photonView = GetComponent<PhotonView>();
             rigidbody = GetComponent<Rigidbody>(); // Get the Rigidbody component
+        }
 
-          
+        private void Start()
+        {
+            GameObject cam = FindAnyObjectByType<PhotonSetup>().convaiCamera.gameObject;
+            cam.transform.SetParent(transform);
+            cam.transform.position = m_camera.transform.position;
+            cam.transform.rotation = m_camera.transform.rotation;
+
+            photonView.RPC("RequestSpawnPosFromMaster" , RpcTarget.MasterClient , photonView.ViewID);
         }
 
         private void Update()
@@ -30,10 +38,7 @@ namespace ReadyPlayerMe.PhotonSupport
                 HandleMovement();
                 HandleJump();
                 HandleDancing();
-                GameObject cam = FindAnyObjectByType<PhotonSetup>().convaiCamera.gameObject;
-                cam.transform.SetParent(transform);
-                cam.transform.position = m_camera.transform.position;
-                cam.transform.rotation = m_camera.transform.rotation;
+              
 
             }
         }

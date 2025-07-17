@@ -10,18 +10,14 @@ namespace ReadyPlayerMe.PhotonSupport
     public class PhotonSetup : MonoBehaviourPunCallbacks
     {
         [SerializeField] private GameObject UI;
-        [SerializeField] private Button maleButton;
-        [SerializeField] private Button femaleButton;
-        const string maleUrl = "https://models.readyplayer.me/67e2f06214094ba17ca45cdd.glb";
-        const string femaleUrl = "https://models.readyplayer.me/67e31203c5f8c4a7798f9375.glb";
         string createPlayer;
         public Transform[] spawnPoints;
+        public int spawnIndex = 0;
         public Camera convaiCamera;
         GameObject character;
         private void Awake()
         {
-            maleButton.onClick.AddListener(OnButtonClickedMale);
-            femaleButton.onClick.AddListener(OnButtonClickedFemale);
+
             convaiCamera = FindFirstObjectByType<Camera>()?.GetComponent<Camera>();
         }
 
@@ -34,57 +30,37 @@ namespace ReadyPlayerMe.PhotonSupport
         {
             Debug.Log("Joined room");
 
-            UI.SetActive(true);
             character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", new Vector3(12, 5, -18), Quaternion.identity);
-        }
-
-        private void OnButtonClickedMale()
-        {
-            PhotonNetwork.GameVersion = "0.1.0";
-            //PhotonNetwork.ConnectUsingSettings();
-            createPlayer = maleUrl;
-            character.GetComponent<NetworkPlayer>().LoadAvatar(createPlayer);
-
-        }
-
-        private void OnButtonClickedFemale()
-        {
-            PhotonNetwork.GameVersion = "0.1.0";
-           // PhotonNetwork.ConnectUsingSettings();
-            createPlayer = femaleUrl;
+            createPlayer = PlayerPrefs.GetString("url");
             character.GetComponent<NetworkPlayer>().LoadAvatar(createPlayer);
         }
-
-
-        //public override void OnConnectedToMaster()
-        //{
-        //    Debug.Log("Connected to master");
-        //    PhotonNetwork.NickName = createPlayer;
-        //    RoomOptions roomOptions = new RoomOptions();
-        //    roomOptions.MaxPlayers = 10;
-        //    PhotonNetwork.JoinOrCreateRoom("Ready Player Me", roomOptions, TypedLobby.Default);
-        //}
-
-        public override void OnJoinedRoom()
+        [PunRPC]
+        public void RequestSpawnPosFromMaster(int viewID)
         {
-         
-
-            //var followScript = convaiCamera.GetComponent<ConvaiCameraFollow>();
-            //if (followScript == null)
-            //{
-            //    followScript = convaiCamera.gameObject.AddComponent<ConvaiCameraFollow>();
-            //}
-            //followScript.target = character.transform;
-
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (PhotonNetwork.IsMasterClient)
             {
-                Application.Quit();
-            }
+                if (spawnIndex >= spawnPoints.Length)
+                {
+                    Debug.LogWarning("Not enough spawn points! Using default position.");
+                    spawnIndex = 0; // Or handle differently
+                }
 
+                Vector3 spawnPos = spawnPoints[spawnIndex].position;
+                photonView.RPC(nameof(SetSpawnPos), RpcTarget.All, viewID, spawnPos);
+                spawnIndex++;
+            }
         }
 
-
-
+        [PunRPC]
+        public void SetSpawnPos(int viewID, Vector3 pos)
+        {
+            PhotonView view = PhotonView.Find(viewID);
+            if (view != null && view.IsMine)
+            {
+                view.gameObject.transform.position = pos;
+                Debug.Log($"Set spawn position for {viewID} to {pos}");
+            }
+        }
 
     }
 }

@@ -2948,7 +2948,7 @@ Transform:
   m_GameObject: {fileID: 628542822}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.7480862, y: 0, z: 0}
+  m_LocalPosition: {x: 6.72, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3143,7 +3143,7 @@ Transform:
   m_GameObject: {fileID: 659295882}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.7480862, y: 0, z: 0}
+  m_LocalPosition: {x: 1.31, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4472,6 +4472,22 @@ PrefabInstance:
       propertyPath: femaleButton
       value: 
       objectReference: {fileID: 513664886}
+    - target: {fileID: 8001334952669098520, guid: 59ba012e3f2d8ff4a9dc11917a2829d5, type: 3}
+      propertyPath: spawnPoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001334952669098520, guid: 59ba012e3f2d8ff4a9dc11917a2829d5, type: 3}
+      propertyPath: 'spawnPoints.Array.data[0]'
+      value: 
+      objectReference: {fileID: 652833248}
+    - target: {fileID: 8001334952669098520, guid: 59ba012e3f2d8ff4a9dc11917a2829d5, type: 3}
+      propertyPath: 'spawnPoints.Array.data[1]'
+      value: 
+      objectReference: {fileID: 659295883}
+    - target: {fileID: 8001334952669098520, guid: 59ba012e3f2d8ff4a9dc11917a2829d5, type: 3}
+      propertyPath: 'spawnPoints.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1588400835}
     - target: {fileID: 8200133235872521575, guid: 59ba012e3f2d8ff4a9dc11917a2829d5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4519,8 +4535,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8870390512336534819, guid: 59ba012e3f2d8ff4a9dc11917a2829d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1157293987}
   m_SourcePrefab: {fileID: 100100000, guid: 59ba012e3f2d8ff4a9dc11917a2829d5, type: 3}
+--- !u!1 &1157293986 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8870390512336534819, guid: 59ba012e3f2d8ff4a9dc11917a2829d5, type: 3}
+  m_PrefabInstance: {fileID: 1157293985}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1157293987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157293986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1166672514
 GameObject:
   m_ObjectHideFlags: 0
@@ -6017,7 +6063,7 @@ Transform:
   m_GameObject: {fileID: 1588400834}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.7480862, y: 0, z: 0}
+  m_LocalPosition: {x: 3.7480862, y: 0, z: 3.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19748,7 +19794,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 1
+  sceneViewId: 17
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!23 &8620545824064725184

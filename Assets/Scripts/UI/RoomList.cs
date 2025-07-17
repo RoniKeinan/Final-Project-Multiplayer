@@ -3,6 +3,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using ReadyPlayerMe.PhotonSupport;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,15 +33,15 @@ public class RoomList : MonoBehaviourPunCallbacks
     public Sprite readySprite;
     public Sprite notReadySprite;
 
-    public  List <CharItem> MaleCharacters = new();
-    public List<CharItem> FemaleCharacters = new();
-
+    public  List <string> Characters = new();
 
     private List<RoomInfo> cachedRoomList = new List<RoomInfo>();
     private Dictionary<int, GameObject> playerListItems = new Dictionary<int, GameObject>();
 
     private const string READY_KEY = "IsReady";
-
+    [SerializeField] private GameObject character;
+    [SerializeField] private Transform spawnPos;
+    [SerializeField] private int charIndex = 0;
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -61,6 +62,7 @@ public class RoomList : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to master");
+       
         PhotonNetwork.JoinLobby();
     }
 
@@ -71,10 +73,30 @@ public class RoomList : MonoBehaviourPunCallbacks
         leaveeRoomButton.SetActive(false);
 
     }
-    private void SelectCharacter(string url)
+    public void SelectCharacter(bool increase)
     {
-        PlayerPrefs.SetString("charType", url);
+        Debug.Log("change char");
 
+        charIndex = increase ? charIndex + 1 : charIndex - 1;
+
+        if (charIndex >= Characters.Count)
+        {
+            charIndex = 0;
+        }
+        else if (charIndex < 0)
+        {
+            charIndex = Characters.Count - 1;
+        }
+
+        SetCharacterView(Characters[charIndex]);
+
+    }
+
+
+    private void SetCharacterView(string url)
+    {
+        character.GetComponent<NetworkPlayer>().LoadAvatar(url);
+        PlayerPrefs.SetString("url", url);
     }
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
@@ -165,6 +187,12 @@ public class RoomList : MonoBehaviourPunCallbacks
         else
         {
             SetReady(true); //Force master to be marked as ready in properties
+        }
+
+        if (photonView.IsMine)
+        {
+            character = PhotonNetwork.Instantiate("RPM_Photon_naked", spawnPos.position, spawnPos.rotation);
+            SetCharacterView(Characters[charIndex]);
         }
     }
 
@@ -326,18 +354,4 @@ public class RoomList : MonoBehaviourPunCallbacks
 
 
 
-}
-
-[System.Serializable]
-public struct CharItem
-{
-    public CharType charType;
-    public string url;
-    public GameObject mesh;
-}
-[System.Serializable]
-public enum CharType
-{
-    Male,
-    Female
 }
