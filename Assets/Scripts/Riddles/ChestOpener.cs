@@ -5,7 +5,7 @@ using Photon.Pun;
 public class ChestOpener : MonoBehaviourPun
 {
     private bool isOpen = false;
-
+    public Animator chestOpen;
     private void OnTriggerEnter(Collider other)
     {
         if (isOpen) return;
@@ -41,11 +41,9 @@ public class ChestOpener : MonoBehaviourPun
         isOpen = true;
         Debug.Log("🧰 Chest is opened!");
 
-        // Optionally play animation
-        Animator anim = GetComponent<Animator>();
-        if (anim != null)
-            anim.SetTrigger("Open");
+        chestOpen.SetBool("isOpen",true);
+       
 
-        // You can also spawn reward here
+        
     }
 }
