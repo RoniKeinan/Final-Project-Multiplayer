@@ -4,6 +4,7 @@ using UnityEngine;
 public class DoorController01_pr : MonoBehaviourPun
 {
     public Animator doorAnimator;
+    public Animator BirdDoorAnimator;
 
     private void Start()
     {
@@ -15,6 +16,7 @@ public class DoorController01_pr : MonoBehaviourPun
     {
         // שולח לכולם (כולל לעצמי) לפתוח את הדלת
         photonView.RPC("OpenDoor", RpcTarget.All);
+       
     }
 
     public void TryCloseDoor()
@@ -26,6 +28,7 @@ public class DoorController01_pr : MonoBehaviourPun
     public void OpenDoor()
     {
         doorAnimator.SetBool("isOpen", true);
+        BirdDoorAnimator.SetBool("isOpen", true);
     }
 
     [PunRPC]

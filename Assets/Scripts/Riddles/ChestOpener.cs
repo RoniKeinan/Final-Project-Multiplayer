@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
+
 public class ChestOpener : MonoBehaviourPun
 {
     private bool isOpen = false;
