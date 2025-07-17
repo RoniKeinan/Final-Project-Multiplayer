@@ -8785,7 +8785,7 @@ MonoBehaviour:
   - {fileID: 1328877190}
   - {fileID: 807038743}
   correctStates: 000000000000000000000000000000000000000000000000
-  door: {fileID: 0}
+  door: {fileID: 6064311961083422460}
 --- !u!1001 &1730634316
 PrefabInstance:
   m_ObjectHideFlags: 0
