@@ -11,10 +11,12 @@ namespace ReadyPlayerMe.PhotonSupport
     {
         [SerializeField] private GameObject UI;
         string createPlayer;
-        public Transform[] spawnPoints;
-        public int spawnIndex = 0;
+     
         public Camera convaiCamera;
         GameObject character;
+
+        public Transform[] spawnPoints;
+        public int spawnIndex = 0;
         private void Awake()
         {
 
@@ -26,13 +28,19 @@ namespace ReadyPlayerMe.PhotonSupport
             InitGame();
         }
 
+        private void Update()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
         private void InitGame()
         {
             Debug.Log("Joined room");
 
-            character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", new Vector3(12, 5, -18), Quaternion.identity);
+            character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", spawnPoints[spawnIndex].position, Quaternion.identity);
             createPlayer = PlayerPrefs.GetString("url");
             character.GetComponent<NetworkPlayer>().LoadAvatar(createPlayer);
+            spawnIndex++;
         }
         [PunRPC]
         public void RequestSpawnPosFromMaster(int viewID)

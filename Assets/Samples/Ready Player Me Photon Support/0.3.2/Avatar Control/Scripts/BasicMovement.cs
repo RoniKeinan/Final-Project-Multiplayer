@@ -13,7 +13,7 @@ namespace ReadyPlayerMe.PhotonSupport
         private readonly static int WALK_ANIM = Animator.StringToHash("Walking");
 
         private bool isGrounded = true; // To check if the player is on the ground
-
+      
         private void Awake()
         {
             animator = GetComponent<Animator>();
@@ -23,12 +23,18 @@ namespace ReadyPlayerMe.PhotonSupport
 
         private void Start()
         {
-            GameObject cam = FindAnyObjectByType<PhotonSetup>().convaiCamera.gameObject;
-            cam.transform.SetParent(transform);
-            cam.transform.position = m_camera.transform.position;
-            cam.transform.rotation = m_camera.transform.rotation;
+            if (photonView.IsMine)
+            {
+                GameObject cam = FindAnyObjectByType<PhotonSetup>().convaiCamera.gameObject;
+                cam.transform.SetParent(transform);
+                cam.transform.position = m_camera.transform.position;
+                cam.transform.rotation = m_camera.transform.rotation;
 
-            photonView.RPC("RequestSpawnPosFromMaster" , RpcTarget.MasterClient , photonView.ViewID);
+               // photonView.RPC("RequestSpawnPosFromMaster", RpcTarget.MasterClient, photonView.ViewID);
+            }
+          
+
+            
         }
 
         private void Update()
