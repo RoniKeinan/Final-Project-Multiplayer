@@ -13,7 +13,8 @@ namespace ReadyPlayerMe.PhotonSupport
         private readonly static int WALK_ANIM = Animator.StringToHash("Walking");
 
         private bool isGrounded = true; // To check if the player is on the ground
-      
+        public Vector3[] spawnPoints;
+        public int spawnIndex = 0;
         private void Awake()
         {
             animator = GetComponent<Animator>();
@@ -30,13 +31,39 @@ namespace ReadyPlayerMe.PhotonSupport
                 cam.transform.position = m_camera.transform.position;
                 cam.transform.rotation = m_camera.transform.rotation;
 
-               // photonView.RPC("RequestSpawnPosFromMaster", RpcTarget.MasterClient, photonView.ViewID);
+                photonView.RPC("RequestSpawnPosFromMaster", RpcTarget.MasterClient, photonView.ViewID);
             }
           
 
             
         }
+        [PunRPC]
+        public void RequestSpawnPosFromMaster(int viewID)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                if (spawnIndex >= spawnPoints.Length)
+                {
+                    Debug.LogWarning("Not enough spawn points! Using default position.");
+                    spawnIndex = 0; // Or handle differently
+                }
 
+                Vector3 spawnPos = spawnPoints[spawnIndex];
+                photonView.RPC(nameof(SetSpawnPos), RpcTarget.All, viewID, spawnPos);
+                spawnIndex++;
+            }
+        }
+
+        [PunRPC]
+        public void SetSpawnPos(int viewID, Vector3 pos)
+        {
+            PhotonView view = PhotonView.Find(viewID);
+            if (view != null && view.IsMine)
+            {
+                view.gameObject.transform.position = pos;
+                Debug.Log($"Set spawn position for {viewID} to {pos}");
+            }
+        }
         private void Update()
         {
             if (photonView.IsMine)

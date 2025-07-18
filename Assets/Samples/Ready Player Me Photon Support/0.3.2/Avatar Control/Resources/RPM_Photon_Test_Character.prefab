@@ -216,6 +216,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_camera: {fileID: 420820375263432790}
+  spawnPoints:
+  - {x: 1, y: 3, z: 0}
+  - {x: 10, y: 3, z: 0}
+  - {x: 5, y: 3, z: 10}
+  spawnIndex: 0
 --- !u!136 &3784076334185469101
 CapsuleCollider:
   m_ObjectHideFlags: 0

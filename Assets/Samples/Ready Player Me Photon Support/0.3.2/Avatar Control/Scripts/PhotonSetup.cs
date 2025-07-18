@@ -15,8 +15,7 @@ namespace ReadyPlayerMe.PhotonSupport
         public Camera convaiCamera;
         GameObject character;
 
-        public Transform[] spawnPoints;
-        public int spawnIndex = 0;
+     
         private void Awake()
         {
 
@@ -37,38 +36,11 @@ namespace ReadyPlayerMe.PhotonSupport
         {
             Debug.Log("Joined room");
 
-            character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", spawnPoints[spawnIndex].position, Quaternion.identity);
+            character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", Vector3.zero, Quaternion.identity);
             createPlayer = PlayerPrefs.GetString("url");
             character.GetComponent<NetworkPlayer>().LoadAvatar(createPlayer);
-            spawnIndex++;
         }
-        [PunRPC]
-        public void RequestSpawnPosFromMaster(int viewID)
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                if (spawnIndex >= spawnPoints.Length)
-                {
-                    Debug.LogWarning("Not enough spawn points! Using default position.");
-                    spawnIndex = 0; // Or handle differently
-                }
-
-                Vector3 spawnPos = spawnPoints[spawnIndex].position;
-                photonView.RPC(nameof(SetSpawnPos), RpcTarget.All, viewID, spawnPos);
-                spawnIndex++;
-            }
-        }
-
-        [PunRPC]
-        public void SetSpawnPos(int viewID, Vector3 pos)
-        {
-            PhotonView view = PhotonView.Find(viewID);
-            if (view != null && view.IsMine)
-            {
-                view.gameObject.transform.position = pos;
-                Debug.Log($"Set spawn position for {viewID} to {pos}");
-            }
-        }
+       
 
     }
 }
