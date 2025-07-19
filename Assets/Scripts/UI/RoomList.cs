@@ -213,6 +213,7 @@ public class RoomList : MonoBehaviourPunCallbacks
         inRoomPanel.SetActive(true);
         createRoomButton.SetActive(false);
         leaveeRoomButton.SetActive(true);
+        roomNameInput.gameObject.SetActive(false);
         UpdatePlayerListUI();
         readyButton.SetActive(!PhotonNetwork.IsMasterClient);
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
