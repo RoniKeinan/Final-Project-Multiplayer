@@ -7,11 +7,18 @@ public class LastDoorController : MonoBehaviourPun
 
     private bool isOpened = false;
 
+
+    
     public void TryOpenDoor()
     {
+        if (doorAnimator == null)
+        {
+            Debug.Log("the door animator is null");
+        }
         if (!isOpened)
         {
             photonView.RPC("OpenDoor", RpcTarget.AllBuffered);
+
         }
     }
 

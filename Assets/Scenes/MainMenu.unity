@@ -211,7 +211,7 @@ Transform:
   m_GameObject: {fileID: 6238106}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: -0.000000044703484, y: 3, z: 0.000000067055225}
+  m_LocalPosition: {x: -0.00000011175871, y: 3, z: 0.00000016763806}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2217,7 +2217,7 @@ MonoBehaviour:
   createRoomButton: {fileID: 2010970851}
   leaveeRoomButton: {fileID: 703515598}
   waitingText: {fileID: 856909610}
-  maxPlayers: 2
+  maxPlayers: 1
   playerListParent: {fileID: 1498772517}
   readySprite: {fileID: 21300000, guid: a413f615478f11e47ab1f7eea05ea410, type: 3}
   notReadySprite: {fileID: 21300000, guid: 5d6395a451044a04aad7f7f6d3bd63a0, type: 3}

@@ -21,8 +21,8 @@ public class KnobRotator : MonoBehaviour
     private void OnMouseDown()
     {
         currentState = (currentState + 1) % 4;
-        float angle = currentState * 90f;
-        pointer.localRotation = Quaternion.Euler(0, angle, 0);
+        float angle = currentState * -90f;
+        pointer.localRotation = Quaternion.Euler(0, 0, angle);
 
         Debug.Log($"{name} rotated to {angle}° (state {currentState})");
 
