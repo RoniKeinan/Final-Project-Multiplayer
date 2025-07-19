@@ -8,6 +8,8 @@ public class ChestOpener : MonoBehaviourPun
 {
     private bool isOpen = false;
     public Animator chestOpen;
+
+  
     private void OnTriggerEnter(Collider other)
     {
         if (isOpen) return;
@@ -51,5 +53,9 @@ public class ChestOpener : MonoBehaviourPun
             timer.StopTimer();
         }
 
+        FindFirstObjectByType<LeaderBoardManager>().OnLastRiddleSolved();
+
     }
+
+ 
 }

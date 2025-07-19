@@ -12,20 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182cd195a28310e479cddf7ff82822f8, type: 3}
   m_Name: LootLockerConfig
   m_EditorClassIdentifier: 
-  apiKey: dev_dfa40fcf789544028e9bbc9a959790e6
-  adminToken: ff13d0142e1f467d0a36841161f0891a8f90978f
+  apiKey: dev_d6fb0ca35739408b8b2fac269ec3f2c8
+  adminToken: a0039c6248dd085516a6156c3ba012b0898eb436
   token: 
   refreshToken: 
-  domainKey: f6zc278s
+  domainKey: sfqkcmo6
   game_version: 1.0.0.0
   sdk_version: 5.2.0
   deviceID: defaultPlayerId
   playerULID: 
   url: https://api.lootlocker.com/v1
-  adminUrl: https://f6zc278s.api.lootlocker.com/admin
-  playerUrl: https://f6zc278s.api.lootlocker.com/player
-  userUrl: https://f6zc278s.api.lootlocker.com/game
-  baseUrl: https://f6zc278s.api.lootlocker.com
+  adminUrl: https://sfqkcmo6.api.lootlocker.com/admin
+  playerUrl: https://sfqkcmo6.api.lootlocker.com/player
+  userUrl: https://sfqkcmo6.api.lootlocker.com/game
+  baseUrl: https://sfqkcmo6.api.lootlocker.com
   clientSideRequestTimeOut: 180
   currentDebugLevel: 0
   logLevel: 2

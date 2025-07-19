@@ -220,6 +220,22 @@ public class RoomList : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient) SetReady(false);
         else SetReady(true);
 
+        PlayerPrefs.SetString("RoomName", PhotonNetwork.CurrentRoom.Name);
+
+        List<string> playerNames = new List<string>();
+
+        foreach (Player p in PhotonNetwork.PlayerList)
+        {
+            string name = p.CustomProperties.ContainsKey("PlayerName")
+                ? (string)p.CustomProperties["PlayerName"]
+                : "Player " + p.ActorNumber;
+
+            playerNames.Add(name);
+        }
+
+        string allNamesCsv = string.Join(",", playerNames);
+        PlayerPrefs.SetString("PlayerNames", allNamesCsv);
+
         // --- Calculate a unique spawn position for this player ---
         // 1. Get the sorted list of players
         Player[] players = PhotonNetwork.PlayerList;
