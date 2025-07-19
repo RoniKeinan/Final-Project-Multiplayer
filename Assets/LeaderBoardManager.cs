@@ -2,12 +2,15 @@ using LootLocker.Requests;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LeaderBoardManager : MonoBehaviour
 {
 
     public GameObject entryPrefab; // assign in Inspector
     public Transform contentParent;
+    public GameObject leaderboardPanel;
+   
 
     GameTimer gametime = new GameTimer();
     void Start()
@@ -26,18 +29,14 @@ public class LeaderBoardManager : MonoBehaviour
 
         string roomName = PlayerPrefs.GetString("RoomName", "UnknownRoom");
         string playerNames = PlayerPrefs.GetString("PlayerNames", "UnknownPlayers");
-
+        leaderboardPanel.SetActive(true);
         SubmitScore(roomName, playerNames, Mathf.FloorToInt(gametime.GetTime()));
     }
 
     void SubmitScore(string roomName, string playerNames, int timeInSeconds)
     {
-        LootLockerSDKManager.SubmitScore(
-             roomName,
-                  timeInSeconds,
-              "room_timer_leaderboard",
-                  playerNames,
-                 (response) =>
+        LootLockerSDKManager.SubmitScore(roomName,timeInSeconds,"EscapeRoomScores",playerNames,
+             (response) =>
              {
              if (response.success)
                  {
@@ -46,7 +45,7 @@ public class LeaderBoardManager : MonoBehaviour
                }
              else
              {
-             Debug.LogError("Score submission failed");
+                     Debug.LogError($"Score submission failed: {response}");
                  }
      });
     }
@@ -98,6 +97,13 @@ public class LeaderBoardManager : MonoBehaviour
         int seconds = timeInSeconds % 60;
         return $"{minutes:D2}:{seconds:D2}";
     }
+    public void BackToLobby()
+    {
+        
+        Photon.Pun.PhotonNetwork.LeaveRoom();
 
+       
+        SceneManager.LoadScene("MainMenu");
+    }
 
 }

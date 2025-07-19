@@ -9,7 +9,7 @@ public class ChestOpener : MonoBehaviourPun
     private bool isOpen = false;
     public Animator chestOpen;
 
-  
+    public LeaderBoardManager leaderboardManager;
     private void OnTriggerEnter(Collider other)
     {
         if (isOpen) return;
@@ -53,7 +53,14 @@ public class ChestOpener : MonoBehaviourPun
             timer.StopTimer();
         }
 
-        FindFirstObjectByType<LeaderBoardManager>().OnLastRiddleSolved();
+        if (leaderboardManager != null)
+        {
+            leaderboardManager.OnLastRiddleSolved();
+        }
+        else
+        {
+            Debug.LogError("❌ LeaderBoardManager is not assigned or found.");
+        }
 
     }
 
