@@ -17,6 +17,12 @@ public class RoomList : MonoBehaviourPunCallbacks
     public GameObject roomListItemPrefab;
     public TMP_InputField roomNameInput;
 
+    [Header("Name Entry Panel")]
+    public GameObject enterNamePanel;
+    public Button SetNameButton;
+    public TMP_InputField playerNameInput;
+
+
     [Header("In Room UI")]
     public GameObject playerListPrefab;
     public GameObject inRoomPanel;
@@ -26,6 +32,7 @@ public class RoomList : MonoBehaviourPunCallbacks
     public GameObject leaveeRoomButton;
     public TextMeshProUGUI waitingText;
     public int maxPlayers;
+
 
     public Transform playerListParent;
 
@@ -56,9 +63,35 @@ public class RoomList : MonoBehaviourPunCallbacks
             PhotonNetwork.LeaveRoom();
             PhotonNetwork.Disconnect();
         }
+        SetNameButton.onClick.AddListener(OnSetNameClicked);
 
         PhotonNetwork.ConnectUsingSettings();
     }
+
+    private void OnSetNameClicked()
+    {
+        string playerName = playerNameInput.text;
+
+        if (!string.IsNullOrWhiteSpace(playerName))
+        {
+            PhotonNetwork.NickName = playerName;
+
+            ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
+        {
+            { "PlayerName", playerName }
+        };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+            enterNamePanel.SetActive(false);
+
+            Debug.Log("Player name set to: " + playerName);
+        }
+        else
+        {
+            Debug.LogWarning("Please enter a valid name.");
+        }
+    }
+
 
     public override void OnConnectedToMaster()
     {
@@ -164,6 +197,8 @@ public class RoomList : MonoBehaviourPunCallbacks
             };
 
             PhotonNetwork.CreateRoom(roomName, options);
+            roomNameInput.gameObject.SetActive(false);
+
         }
     }
 
@@ -173,6 +208,8 @@ public class RoomList : MonoBehaviourPunCallbacks
 
         // --- UI setup (no changes) ---
         roomListParent.gameObject.SetActive(false);
+        playerNameInput.gameObject.SetActive(true);
+
         inRoomPanel.SetActive(true);
         createRoomButton.SetActive(false);
         leaveeRoomButton.SetActive(true);
@@ -201,6 +238,7 @@ public class RoomList : MonoBehaviourPunCallbacks
         SetCharacterView(Characters[charIndex]);
         }
 
+ 
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
@@ -232,7 +270,10 @@ public class RoomList : MonoBehaviourPunCallbacks
             GameObject entry = Instantiate(playerListPrefab, playerListParent);
             TextMeshProUGUI text = entry.GetComponentInChildren<TextMeshProUGUI>();
 
-            string name = p.NickName != "" ? p.NickName : "Player " + p.ActorNumber;
+            string name = p.CustomProperties.ContainsKey("PlayerName")
+            ? (string)p.CustomProperties["PlayerName"]
+            : "Player " + p.ActorNumber;
+
             bool isReady = p.CustomProperties.ContainsKey(READY_KEY) && (bool)p.CustomProperties[READY_KEY];
 
             text.text = name;

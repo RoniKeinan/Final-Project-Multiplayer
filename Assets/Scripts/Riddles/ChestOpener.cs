@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using TMPro;
+
 
 
 public class ChestOpener : MonoBehaviourPun
@@ -42,8 +44,12 @@ public class ChestOpener : MonoBehaviourPun
         Debug.Log("🧰 Chest is opened!");
 
         chestOpen.SetBool("isOpen",true);
-       
 
-        
+        GameTimer timer = Object.FindFirstObjectByType<GameTimer>();
+        if (timer != null)
+        {
+            timer.StopTimer();
+        }
+
     }
 }
