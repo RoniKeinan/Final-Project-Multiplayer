@@ -42,15 +42,8 @@ namespace ReadyPlayerMe.PhotonSupport
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                if (spawnIndex >= spawnPoints.Length)
-                {
-                    Debug.LogWarning("Not enough spawn points! Using default position.");
-                    spawnIndex = 0; // Or handle differently
-                }
-
-                Vector3 spawnPos = spawnPoints[spawnIndex];
+                Vector3 spawnPos = SpawnManager.Instance.GetNextSpawn();
                 photonView.RPC(nameof(SetSpawnPos), RpcTarget.All, viewID, spawnPos);
-                spawnIndex++;
             }
         }
 
