@@ -52,21 +52,36 @@ public class LeaderBoardManager : MonoBehaviour
 
     public void FetchFromFireBase()
     {
-
         if (fireBaseManager.TryGetComponent<FirebaseManager>(out var firebase))
         {
             firebase.FetchAllScores(sortedList =>
             {
+                // מנקה את התצוגה הקודמת
                 foreach (Transform child in contentParent)
                     Destroy(child.gameObject);
 
+                // לוג כל הרשימה שהתקבלה (כדי לראות מה יש בה)
+                Debug.Log($"Received sortedList with {sortedList.Count} entries.");
+
+                for (int i = 0; i < sortedList.Count; i++)
+                {
+                    var item = sortedList[i];
+                    Debug.Log($"Entry #{i}: roomName='{item.roomName}', playerName='{item.playerName}', scoreInSeconds={item.scoreInSeconds}");
+                }
+
+                // יצירת אנטרי עבור כל פריט
                 foreach (var item in sortedList)
                 {
                     CreateEntry(item.roomName, item.playerName, item.scoreInSeconds);
                 }
             });
         }
+        else
+        {
+            Debug.LogWarning("FirebaseManager component not found on fireBaseManager GameObject.");
+        }
     }
+
 
     void CreateEntry(string roomNameDisplay, string playersDisplay, int time)
     {
