@@ -3,11 +3,14 @@ using Convai.Scripts.Runtime.Core;
 using LootLocker.Requests;
 using LootLocker.Requests;
 using Photon.Pun;
+using Photon.Pun.Demo.PunBasics;
 using Photon.Realtime;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
+
 
 namespace ReadyPlayerMe.PhotonSupport
 {
@@ -19,7 +22,9 @@ namespace ReadyPlayerMe.PhotonSupport
         public Camera convaiCamera;
         GameObject character;
 
-     
+        private string playerID;
+
+      
 
         private void Awake()
         {
@@ -33,9 +38,11 @@ namespace ReadyPlayerMe.PhotonSupport
         {
             InitGame();
 
+         
         }
 
-   
+
+
         private void Update()
         {
             Cursor.lockState = CursorLockMode.None;

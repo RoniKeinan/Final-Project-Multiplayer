@@ -1,93 +1,94 @@
-using LootLocker.Requests;
+﻿
+
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Firebase;
+using Firebase.Database;
+using Firebase.Extensions;
+using System.Collections.Generic;
 
 public class LeaderBoardManager : MonoBehaviour
 {
+    public GameObject fireBaseManager; // Should have FirebaseManager script attached
 
-    public GameObject entryPrefab; // assign in Inspector
+    public GameObject entryPrefab;
     public Transform contentParent;
     public GameObject leaderboardPanel;
-   
 
-    GameTimer gametime = new GameTimer();
-    void Start()
-    {
-        
-    }
+    private string roomName;
+    private string playerNames;
+    private int timeInSeconds;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        // Load data from PlayerPrefs safely
+ 
     }
 
     public void OnLastRiddleSolved()
     {
+        roomName = PlayerPrefs.GetString("RoomName", "UnknownRoom");
+        playerNames = PlayerPrefs.GetString("PlayerNames", "UnknownPlayers");
+        string timeStr = PlayerPrefs.GetString("time", "123");
+        int.TryParse(timeStr, out timeInSeconds);
 
-        string roomName = PlayerPrefs.GetString("RoomName", "UnknownRoom");
-        string playerNames = PlayerPrefs.GetString("PlayerNames", "UnknownPlayers");
         leaderboardPanel.SetActive(true);
-        SubmitScore(roomName, playerNames, Mathf.FloorToInt(gametime.GetTime()));
-    }
 
-    void SubmitScore(string roomName, string playerNames, int timeInSeconds)
-    {
-        LootLockerSDKManager.SubmitScore(roomName,timeInSeconds,"EscapeRoomScores",playerNames,
-             (response) =>
-             {
-             if (response.success)
-                 {
-             Debug.Log("Score submitted successfully");
-             FetchLeaderboard(); // Refresh UI
-               }
-             else
-             {
-                     Debug.LogError($"Score submission failed: {response}");
-                 }
-     });
-    }
-
-    void FetchLeaderboard()
-    {
-        string leaderboardId = "31628"; // Replace with your actual ID
-
-        LootLockerSDKManager.GetScoreList(leaderboardId, 50, 0, (response) =>
+        if (fireBaseManager.TryGetComponent<FirebaseManager>(out var firebase))
         {
-            if (!response.success)
+            firebase.SaveScore(playerNames, timeInSeconds, roomName, () =>
             {
-                Debug.LogError("Failed to fetch leaderboard");
-                return;
-            }
-
-            // Clear existing content (optional)
-            foreach (Transform child in contentParent)
-                Destroy(child.gameObject);
-
-            // Sort scores by descending time (highest first)
-            var sorted = response.items.OrderByDescending(item => item.score).ToList();
-
-            foreach (var item in sorted)
-            {
-                // Assuming:
-                // item.member_id = RoomName
-                // item.metadata = comma-separated player names, like "Itai,Jon,Dana"
-                // item.score = time in seconds
-
-                CreateEntry(item.member_id, item.metadata, item.score);
-            }
-        });
+                // ✅ When save is done, fetch & refresh leaderboard
+                FetchFromFireBase();
+            });
+        }
+        else
+        {
+            Debug.LogError("❌ FirebaseManager component not found on fireBaseManager GameObject.");
+        }
     }
 
-    void CreateEntry(string roomName, string playerNamesCsv, int time)
+    public void FetchFromFireBase()
     {
-        GameObject entry = Instantiate(entryPrefab, contentParent);
+        if (fireBaseManager.TryGetComponent<FirebaseManager>(out var firebase))
+        {
+            firebase.FetchAllScores(sortedList =>
+            {
+                // מנקה את התצוגה הקודמת
+                foreach (Transform child in contentParent)
+                    Destroy(child.gameObject);
 
-        TMP_Text[] texts = entry.GetComponentsInChildren<TMP_Text>();
-        texts[0].text = roomName;
-        texts[1].text = playerNamesCsv.Replace(",", ", "); // format nicely
+                // לוג כל הרשימה שהתקבלה (כדי לראות מה יש בה)
+                Debug.Log($"Received sortedList with {sortedList.Count} entries.");
+
+                for (int i = 0; i < sortedList.Count; i++)
+                {
+                    var item = sortedList[i];
+                    Debug.Log($"Entry #{i}: roomName='{item.roomName}', playerName='{item.playerName}', scoreInSeconds={item.scoreInSeconds}");
+                }
+
+                // יצירת אנטרי עבור כל פריט
+                foreach (var item in sortedList)
+                {
+                    CreateEntry(item.roomName, item.playerName, item.scoreInSeconds);
+                }
+            });
+        }
+        else
+        {
+            Debug.LogWarning("FirebaseManager component not found on fireBaseManager GameObject.");
+        }
+    }
+
+
+    void CreateEntry(string roomNameDisplay, string playersDisplay, int time)
+    {
+        var go = Instantiate(entryPrefab, contentParent);
+        var texts = go.GetComponentsInChildren<TMP_Text>();
+        texts[0].text = roomNameDisplay;
+        texts[1].text = playersDisplay;
         texts[2].text = FormatTime(time);
     }
 
@@ -97,13 +98,10 @@ public class LeaderBoardManager : MonoBehaviour
         int seconds = timeInSeconds % 60;
         return $"{minutes:D2}:{seconds:D2}";
     }
+
     public void BackToLobby()
     {
-        
         Photon.Pun.PhotonNetwork.LeaveRoom();
-
-       
         SceneManager.LoadScene("MainMenu");
     }
-
 }
