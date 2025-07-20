@@ -51,6 +51,7 @@ public class ChestOpener : MonoBehaviourPun
         if (timer != null)
         {
             timer.StopTimer();
+            PlayerPrefs.SetString("time", Mathf.RoundToInt(timer.GetTime()).ToString());
         }
 
         if (leaderboardManager != null)
