@@ -1,13 +1,14 @@
 ﻿
 
+using Firebase;
+using Firebase.Database;
+using Firebase.Extensions;
+using Photon.Realtime;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Firebase;
-using Firebase.Database;
-using Firebase.Extensions;
-using System.Collections.Generic;
 
 public class LeaderBoardManager : MonoBehaviour
 {
@@ -85,11 +86,13 @@ public class LeaderBoardManager : MonoBehaviour
 
     void CreateEntry(string roomNameDisplay, string playersDisplay, int time)
     {
-        var go = Instantiate(entryPrefab, contentParent);
-        var texts = go.GetComponentsInChildren<TMP_Text>();
-        texts[0].text = roomNameDisplay;
-        texts[1].text = playersDisplay;
-        texts[2].text = FormatTime(time);
+        GameObject go = Instantiate(entryPrefab, contentParent);
+         go.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = roomNameDisplay;
+        go.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = playersDisplay;
+        go.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = FormatTime(time);
+       
+
+        
     }
 
     string FormatTime(int timeInSeconds)
