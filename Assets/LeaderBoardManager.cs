@@ -87,14 +87,25 @@ public class LeaderBoardManager : MonoBehaviour
     void CreateEntry(string roomNameDisplay, string playersDisplay, int time)
     {
         GameObject go = Instantiate(entryPrefab, contentParent);
-         go.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = roomNameDisplay;
-        go.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = playersDisplay;
-        go.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = FormatTime(time);
-       
+        ActivateAllChildren(go);
+        go.SetActive(true);
 
-        
+   
+        go.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = roomNameDisplay;
+        go.transform.GetChild(1).GetComponentInChildren<TextMeshProUGUI>().text = playersDisplay;
+        go.transform.GetChild(2).GetComponentInChildren<TextMeshProUGUI>().text = FormatTime(time);
     }
 
+
+
+    void ActivateAllChildren(GameObject obj)
+    {
+        obj.SetActive(true);
+        foreach (Transform child in obj.transform)
+        {
+            ActivateAllChildren(child.gameObject);
+        }
+    }
     string FormatTime(int timeInSeconds)
     {
         int minutes = timeInSeconds / 60;
