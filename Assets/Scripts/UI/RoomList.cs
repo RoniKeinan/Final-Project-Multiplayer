@@ -16,6 +16,7 @@ public class RoomList : MonoBehaviourPunCallbacks
     public Transform roomListParent;
     public GameObject roomListItemPrefab;
     public TMP_InputField roomNameInput;
+    public GameObject chooseRoomTitle;
 
     [Header("Name Entry Panel")]
     public GameObject enterNamePanel;
@@ -32,6 +33,9 @@ public class RoomList : MonoBehaviourPunCallbacks
     public GameObject leaveeRoomButton;
     public TextMeshProUGUI waitingText;
     public int maxPlayers;
+    public TextMeshProUGUI roomNameText;
+    public GameObject charPanel;
+
 
 
     public Transform playerListParent;
@@ -208,8 +212,9 @@ public class RoomList : MonoBehaviourPunCallbacks
 
         // --- UI setup (no changes) ---
         roomListParent.gameObject.SetActive(false);
+        chooseRoomTitle.gameObject.SetActive(false);
         playerNameInput.gameObject.SetActive(true);
-
+        charPanel.gameObject.SetActive(true);
         inRoomPanel.SetActive(true);
         createRoomButton.SetActive(false);
         leaveeRoomButton.SetActive(true);
@@ -219,6 +224,8 @@ public class RoomList : MonoBehaviourPunCallbacks
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
         if (!PhotonNetwork.IsMasterClient) SetReady(false);
         else SetReady(true);
+        roomNameText.text = PhotonNetwork.CurrentRoom.Name + " Room";
+
 
         PlayerPrefs.SetString("RoomName", PhotonNetwork.CurrentRoom.Name);
 
@@ -371,9 +378,11 @@ public class RoomList : MonoBehaviourPunCallbacks
         Debug.Log("Left room. Rejoining lobby...");
 
         roomListParent.gameObject.SetActive(true);  // Show room list again
+        chooseRoomTitle.gameObject.SetActive(true);
         inRoomPanel.SetActive(false);
         leaveeRoomButton.SetActive(false);
         createRoomButton.SetActive(true);
+        charPanel.gameObject.SetActive(false);
 
         foreach (Transform child in playerListParent)
             Destroy(child.gameObject);
