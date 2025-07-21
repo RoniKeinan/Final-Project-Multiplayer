@@ -64,7 +64,7 @@ public class FirebaseManager : MonoBehaviour
                     matches.Add(match);
                 }
 
-                matches = matches.OrderByDescending(m => m.scoreInSeconds).ToList();
+                matches = matches.OrderBy(m => m.scoreInSeconds).ToList();
             }
             callback?.Invoke(matches);
         });
