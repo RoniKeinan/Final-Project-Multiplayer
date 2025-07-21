@@ -1,6 +1,8 @@
 #if PHOTON_UNITY_NETWORKING
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace ReadyPlayerMe.PhotonSupport
 {
@@ -59,6 +61,13 @@ namespace ReadyPlayerMe.PhotonSupport
         }
         private void Update()
         {
+            if (EventSystem.current.currentSelectedGameObject != null &&
+              EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>() != null)
+            {
+                return; // Skip movement if typing
+            }
+
+
             if (photonView.IsMine)
             {
                 HandleMovement();
@@ -67,6 +76,8 @@ namespace ReadyPlayerMe.PhotonSupport
               
 
             }
+
+         
         }
 
         private void HandleMovement()
