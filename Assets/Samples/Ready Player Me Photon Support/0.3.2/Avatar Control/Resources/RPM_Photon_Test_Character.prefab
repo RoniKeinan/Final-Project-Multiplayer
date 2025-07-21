@@ -32,9 +32,37 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2785563761285038804, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2785563761285038804, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2785563761285038804, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2785563761285038804, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9890652
+      objectReference: {fileID: 0}
+    - target: {fileID: 2785563761285038804, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.14747946
+      objectReference: {fileID: 0}
+    - target: {fileID: 2785563761285038804, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 16.962
+      objectReference: {fileID: 0}
     - target: {fileID: 4966848068884174078, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
       propertyPath: m_SynchronizeParameters.Array.data[0].SynchronizeType
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7494346411939576443, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7968283499595012214, guid: 9f9858ed19f076f48892c010ab64643a, type: 3}
       propertyPath: m_RootOrder
