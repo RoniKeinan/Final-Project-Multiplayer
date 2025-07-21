@@ -13,6 +13,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using ConvaiLipSync = Convai.Scripts.Runtime.Features.LipSync.ConvaiLipSync;
+using Photon.Pun;
+
 #if UNITY_ANDROID
 using UnityEngine.Android;
 #endif
@@ -33,6 +35,8 @@ namespace Convai.Scripts.Runtime.Core
         private const int RECORDING_FREQUENCY = AUDIO_SAMPLE_RATE;
         private const int RECORDING_LENGTH = 30;
         private static readonly int Talk = Animator.StringToHash("Talk");
+
+        public PhotonView photonView;
 
         [Header("Character Information")]
         [Tooltip("Enter the character name for this NPC.")]
@@ -144,6 +148,7 @@ namespace Convai.Scripts.Runtime.Core
             ConvaiLogger.Info("Initializing ConvaiNPC : " + characterName, ConvaiLogger.LogCategory.Character);
             InitializeComponents();
             ConvaiLogger.Info("ConvaiNPC component initialized", ConvaiLogger.LogCategory.Character);
+            photonView = GetComponent<PhotonView>();
         }
 
         private async void Start()
@@ -312,8 +317,23 @@ namespace Convai.Scripts.Runtime.Core
 
         private void HandleAudioTranscriptAvailable(string transcript)
         {
-           
-            if (isCharacterActive) _convaiChatUIHandler.SendCharacterText(characterName, transcript);
+            if (isCharacterActive)
+            {
+                if (PhotonNetwork.InRoom)
+                {
+                    photonView.RPC("RPC_ShowTranscript", RpcTarget.All, characterName, transcript);
+                }
+                else
+                {
+                    _convaiChatUIHandler.SendCharacterText(characterName, transcript);
+                }
+            }
+        }
+
+        [PunRPC]
+        public void RPC_ShowTranscript(string npcName, string text)
+        {
+            _convaiChatUIHandler.SendCharacterText(npcName, text);
         }
 
         /// <summary>
