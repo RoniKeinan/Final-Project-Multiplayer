@@ -52,6 +52,7 @@ MonoBehaviour:
   - RPC_ReceiveNpcAudioChunk
   - CreateEntryRPC
   - RPC_ShowTranscript
+  - RPC_PlayNetworkedAudio
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -5,6 +5,8 @@ using Convai.Scripts.Runtime.Features;
 using Convai.Scripts.Runtime.LoggerSystem;
 using Service;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace Convai.Scripts.Runtime.Core
 {
@@ -18,14 +20,14 @@ namespace Convai.Scripts.Runtime.Core
         private Coroutine _playInOrderCoroutine;
         private bool _stopAudioPlayingLoop;
         private bool _waitForCharacterLipSync;
-
+        private PhotonView photonView;
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
             _convaiNPC = GetComponent<ConvaiNPC>();
             TryGetComponent(out _npcController);
 
-         
+            photonView = GetComponent<PhotonView>();
 
             _lastTalkingState = false;
         }
@@ -74,7 +76,41 @@ namespace Convai.Scripts.Runtime.Core
 
         public void AddResponseAudio(ResponseAudio responseAudio)
         {
+                  #if UNITY_EDITOR
+                    Debug.Log("Enqueueing and sending audio to network...");
+                  #endif
+
             _responseAudios.Enqueue(responseAudio);
+
+            if (PhotonNetwork.IsConnected && PhotonNetwork.InRoom)
+            {
+                // Convert AudioClip to byte[] (WAV format or PCM)
+                byte[] audioData = WavUtility.FromAudioClip(responseAudio.AudioClip);
+
+                photonView.RPC("RPC_PlayNetworkedAudio", RpcTarget.Others, audioData, responseAudio.AudioTranscript);
+            }
+        }
+
+        [PunRPC]
+        private void RPC_PlayNetworkedAudio(byte[] audioData, string transcript)
+        {
+            // Convert byte[] back to AudioClip
+            AudioClip clip = WavUtility.ToAudioClip(audioData, "NetworkedClip");
+
+            if (clip == null)
+            {
+                Debug.LogWarning("Failed to deserialize AudioClip from network data.");
+                return;
+            }
+
+            ResponseAudio networkedAudio = new ResponseAudio
+            {
+                AudioClip = clip,
+                AudioTranscript = transcript,
+                IsFinal = false
+            };
+
+            _responseAudios.Enqueue(networkedAudio);
         }
 
         public int GetAudioResponseCount()

@@ -246,5 +246,113 @@ namespace Convai.Scripts.Runtime.Core
             Debug.LogError("Failed to parse WAV header for duration calculation");
             return 0f;
         }
+
+        public static byte[] FromAudioClip(AudioClip clip)
+        {
+            if (clip == null)
+            {
+                Debug.LogError("AudioClip is null");
+                return null;
+            }
+
+            float[] samples = new float[clip.samples * clip.channels];
+            clip.GetData(samples, 0);
+
+            byte[] wavData = ConvertAudioClipDataToInt16ByteArray(samples);
+            byte[] wavHeader = GetWavHeader(wavData.Length, clip.channels, clip.frequency);
+
+            byte[] fullWav = new byte[wavHeader.Length + wavData.Length];
+            Buffer.BlockCopy(wavHeader, 0, fullWav, 0, wavHeader.Length);
+            Buffer.BlockCopy(wavData, 0, fullWav, wavHeader.Length, wavData.Length);
+            return fullWav;
+        }
+
+        public static AudioClip ToAudioClip(byte[] data, string clipName = "networkClip", int offsetSamples = 0, int sampleRateOverride = 0)
+        {
+            if (data == null || data.Length < 44)
+            {
+                Debug.LogError("Invalid WAV data.");
+                return null;
+            }
+
+            // Extract format info from WAV header
+            int channels = BitConverter.ToInt16(data, 22);
+            int sampleRate = BitConverter.ToInt32(data, 24);
+            int byteRate = BitConverter.ToInt32(data, 28);
+            int bitsPerSample = BitConverter.ToInt16(data, 34);
+
+            if (bitsPerSample != 16)
+            {
+                Debug.LogError("Only 16-bit PCM WAV files are supported.");
+                return null;
+            }
+
+            int dataStartIndex = 44;
+            int sampleCount = (data.Length - dataStartIndex) / 2; // 2 bytes per sample
+            float[] audioData = new float[sampleCount];
+
+            for (int i = 0; i < sampleCount; i++)
+            {
+                short sample = BitConverter.ToInt16(data, dataStartIndex + i * 2);
+                audioData[i] = sample / 32768.0f;
+            }
+
+            int samples = sampleCount / channels;
+            if (sampleRateOverride > 0) sampleRate = sampleRateOverride;
+
+            AudioClip audioClip = AudioClip.Create(clipName, samples, channels, sampleRate, false);
+            audioClip.SetData(audioData, offsetSamples);
+
+            return audioClip;
+        }
+
+
+        private static byte[] ConvertAudioClipDataToInt16ByteArray(float[] data)
+        {
+            short[] intData = new short[data.Length];
+            byte[] bytesData = new byte[data.Length * 2];
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                intData[i] = (short)(data[i] * short.MaxValue);
+                byte[] byteArr = BitConverter.GetBytes(intData[i]);
+                byteArr.CopyTo(bytesData, i * 2);
+            }
+
+            return bytesData;
+        }
+
+        private static byte[] GetWavHeader(int dataLength, int channels, int sampleRate)
+        {
+            int headerSize = 44;
+            int fileSize = headerSize + dataLength - 8;
+            short bitsPerSample = 16;
+            short blockAlign = (short)(channels * bitsPerSample / 8);
+            int byteRate = sampleRate * blockAlign;
+
+            byte[] header = new byte[headerSize];
+
+            // Chunk ID "RIFF"
+            System.Text.Encoding.ASCII.GetBytes("RIFF").CopyTo(header, 0);
+            BitConverter.GetBytes(fileSize).CopyTo(header, 4);
+            System.Text.Encoding.ASCII.GetBytes("WAVE").CopyTo(header, 8);
+
+            // fmt subchunk
+            System.Text.Encoding.ASCII.GetBytes("fmt ").CopyTo(header, 12);
+            BitConverter.GetBytes(16).CopyTo(header, 16); // Subchunk1Size
+            BitConverter.GetBytes((short)1).CopyTo(header, 20); // AudioFormat
+            BitConverter.GetBytes((short)channels).CopyTo(header, 22);
+            BitConverter.GetBytes(sampleRate).CopyTo(header, 24);
+            BitConverter.GetBytes(byteRate).CopyTo(header, 28);
+            BitConverter.GetBytes(blockAlign).CopyTo(header, 32);
+            BitConverter.GetBytes(bitsPerSample).CopyTo(header, 34);
+
+            // data subchunk
+            System.Text.Encoding.ASCII.GetBytes("data").CopyTo(header, 36);
+            BitConverter.GetBytes(dataLength).CopyTo(header, 40);
+
+            return header;
+        }
+
     }
 }
