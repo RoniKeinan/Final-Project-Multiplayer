@@ -287,6 +287,7 @@ public class RoomList : MonoBehaviourPunCallbacks
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         UpdatePlayerListUI();
+        UpdateReadyButtonUI();
     }
 
     public void OnReadyButtonClicked()
@@ -295,6 +296,7 @@ public class RoomList : MonoBehaviourPunCallbacks
                        (bool)PhotonNetwork.LocalPlayer.CustomProperties[READY_KEY];
 
         SetReady(!isReady);
+        UpdateReadyButtonUI();
     }
 
     private void SetReady(bool ready)
@@ -341,6 +343,31 @@ public class RoomList : MonoBehaviourPunCallbacks
 
         CheckStartGameCondition();
     }
+
+    private static readonly Color32 ReadyCol = new Color32(0x0F, 0xFF, 0x00, 0xFF); // #0FFF00
+    private static readonly Color32 NotReadyCol = new Color32(0xFF, 0x00, 0x00, 0xFF); // אדום
+
+    private void UpdateReadyButtonUI()
+    {
+        bool isReady = PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(READY_KEY) &&
+                       (bool)PhotonNetwork.LocalPlayer.CustomProperties[READY_KEY];
+
+        // Text
+        var txt = readyButton.GetComponentInChildren<TextMeshProUGUI>(true);
+        if (txt)
+        {
+            txt.text = isReady ? "NOT READY" : "READY";
+            txt.color = isReady ? NotReadyCol : ReadyCol;
+        }
+
+        // Background / frame
+        var img = readyButton.GetComponent<Image>();
+        if (img)
+        {
+            img.color = isReady ? NotReadyCol : ReadyCol;
+        }
+    }
+
 
 
     private void CheckStartGameCondition()
