@@ -140,11 +140,7 @@ public class RoomList : MonoBehaviourPunCallbacks
     }
 
 
-    private void SetCharacterView(string url)
-    {
-        character.GetComponent<NetworkPlayer>().LoadAvatar(url);
-        PlayerPrefs.SetString("url", url);
-    }
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         foreach (RoomInfo roomInfo in roomList)
@@ -262,24 +258,30 @@ public class RoomList : MonoBehaviourPunCallbacks
         // 4. Final spawn position
         Vector3 mySpawnPos = spawnPos.position + offset;
 
-        // --- Instantiate the avatar at the computed position ---
-        StartCoroutine(SpawnAndInitializeCharacter(mySpawnPos, spawnPos.rotation));
-    }
-
-    private IEnumerator SpawnAndInitializeCharacter(Vector3 position, Quaternion rotation)
-    {
-       
-        character = PhotonNetwork.Instantiate("RPM_Photon_naked", position, rotation);
+        character = PhotonNetwork.Instantiate("RPM_Photon_naked", mySpawnPos, spawnPos.rotation);
         character.SetActive(false);
 
-        
-        yield return new WaitForSeconds(2f);
+        // --- Instantiate the avatar at the computed position ---
+        StartCoroutine(SpawnAndInitializeCharacter());
+    }
+
+    private IEnumerator SpawnAndInitializeCharacter()
+    {
+        SetCharacterView(Characters[charIndex]);
+
+        yield return new WaitForSeconds(3f);
 
        
         character.SetActive(true);
 
       
-        SetCharacterView(Characters[charIndex]);
+       
+    }
+
+    private void SetCharacterView(string url)
+    {
+        character.GetComponent<NetworkPlayer>().LoadAvatar(url);
+        PlayerPrefs.SetString("url", url);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
