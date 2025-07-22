@@ -3161,6 +3161,7 @@ MonoBehaviour:
   roomListItemPrefab: {fileID: 5530976662042758501, guid: e739f790162e2634aadc86a9ebe6c5a5, type: 3}
   roomNameInput: {fileID: 1509234465}
   chooseRoomTitle: {fileID: 1785214005}
+  roomsScreenHolder: {fileID: 1582672530}
   enterNamePanel: {fileID: 1922230458}
   SetNameButton: {fileID: 27165703}
   playerNameInput: {fileID: 2040723363}

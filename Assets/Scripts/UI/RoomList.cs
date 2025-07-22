@@ -17,6 +17,7 @@ public class RoomList : MonoBehaviourPunCallbacks
     public GameObject roomListItemPrefab;
     public TMP_InputField roomNameInput;
     public GameObject chooseRoomTitle;
+    public GameObject roomsScreenHolder;
 
     [Header("Name Entry Panel")]
     public GameObject enterNamePanel;
@@ -68,6 +69,10 @@ public class RoomList : MonoBehaviourPunCallbacks
             PhotonNetwork.Disconnect();
         }
         SetNameButton.onClick.AddListener(OnSetNameClicked);
+        chooseRoomTitle.gameObject.SetActive(false);
+        roomNameInput.gameObject.SetActive(false);
+        roomsScreenHolder.gameObject.SetActive(false);
+        createRoomButton.gameObject.SetActive(false);
 
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -75,6 +80,10 @@ public class RoomList : MonoBehaviourPunCallbacks
     private void OnSetNameClicked()
     {
         string playerName = playerNameInput.text;
+        chooseRoomTitle.gameObject.SetActive(true);
+        roomNameInput.gameObject.SetActive(true);
+        roomsScreenHolder.gameObject.SetActive(true);
+        createRoomButton.gameObject.SetActive(true);
 
         if (!string.IsNullOrWhiteSpace(playerName))
         {
@@ -107,7 +116,6 @@ public class RoomList : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         Debug.Log("Joined lobby");
-        createRoomButton.SetActive(true);
         leaveeRoomButton.SetActive(false);
 
     }
@@ -383,6 +391,8 @@ public class RoomList : MonoBehaviourPunCallbacks
         leaveeRoomButton.SetActive(false);
         createRoomButton.SetActive(true);
         charPanel.gameObject.SetActive(false);
+        roomNameInput.gameObject.SetActive(true);
+
 
         foreach (Transform child in playerListParent)
             Destroy(child.gameObject);
