@@ -1,75 +1,81 @@
 #if PHOTON_UNITY_NETWORKING && READY_PLAYER_ME
-using Convai.Scripts.Runtime.Core;
-using LootLocker.Requests;
-using LootLocker.Requests;
+using System.Collections;                 // Needed for IEnumerator
 using Photon.Pun;
-using Photon.Pun.Demo.PunBasics;
 using Photon.Realtime;
-using System.Collections;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+// Optional namespaces you already had
+using Convai.Scripts.Runtime.Core;
+using LootLocker.Requests;
 
 namespace ReadyPlayerMe.PhotonSupport
 {
     public class PhotonSetup : MonoBehaviourPunCallbacks
     {
-        [SerializeField] private GameObject UI;
-        string createPlayer;
-     
+        [Header("UI")]
+        [SerializeField] private GameObject loadingPanel;   // Panel to show at start (set it active in the scene)
+        [SerializeField] private float loadingTime = 5f;     // Seconds to keep the loading panel
+
+
+        [Header("Avatar")]
+        [SerializeField] private string networkPlayerPrefabName = "RPM_Photon_Test_Character";
+
+        private string createPlayer;
+        private GameObject character;
+
         public Camera convaiCamera;
-        GameObject character;
-
         private string playerID;
-
-      
 
         private void Awake()
         {
+            // Find camera if not assigned (optional)
+            if (convaiCamera == null)
+                convaiCamera = FindFirstObjectByType<Camera>();
 
-            convaiCamera = FindFirstObjectByType<Camera>()?.GetComponent<Camera>();
+            // Ensure panels state at start
+            if (loadingPanel != null) loadingPanel.SetActive(true);
 
-            
         }
 
         private void Start()
         {
             InitGame();
-
-         
+            StartCoroutine(HideLoadingAfterDelay());
         }
-
-
 
         private void Update()
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
+
         private void InitGame()
         {
             Debug.Log("Joined room");
 
-            character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", Vector3.zero, Quaternion.identity);
-            character.SetActive(false); 
+            // Spawn at zero (you can replace with your own spawn logic if needed)
+            character = PhotonNetwork.Instantiate(networkPlayerPrefabName, Vector3.zero, Quaternion.identity);
+            character.SetActive(false);
 
             createPlayer = PlayerPrefs.GetString("url");
-            StartCoroutine(LoadAndShowCharacter());
-        }
-
-        private IEnumerator LoadAndShowCharacter()
-        {
             character.GetComponent<NetworkPlayer>().LoadAvatar(createPlayer);
-
-          
-            yield return new WaitForSeconds(2f);
 
             character.SetActive(true);
         }
 
+        /// <summary>
+        /// Hides the loading panel after the given delay.
+        /// </summary>
+        private IEnumerator HideLoadingAfterDelay()
+        {
+            yield return new WaitForSeconds(loadingTime);
+
+            if (loadingPanel) loadingPanel.SetActive(false);
+            FindObjectOfType<GameTimer>()?.StartTimer(); // start counting now
+
+        }
     }
 }
 #endif
