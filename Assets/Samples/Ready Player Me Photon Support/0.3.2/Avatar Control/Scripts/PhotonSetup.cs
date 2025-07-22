@@ -5,6 +5,7 @@ using LootLocker.Requests;
 using Photon.Pun;
 using Photon.Pun.Demo.PunBasics;
 using Photon.Realtime;
+using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -53,10 +54,21 @@ namespace ReadyPlayerMe.PhotonSupport
             Debug.Log("Joined room");
 
             character = PhotonNetwork.Instantiate("RPM_Photon_Test_Character", Vector3.zero, Quaternion.identity);
+            character.SetActive(false); 
+
             createPlayer = PlayerPrefs.GetString("url");
-            character.GetComponent<NetworkPlayer>().LoadAvatar(createPlayer);
+            StartCoroutine(LoadAndShowCharacter());
         }
-       
+
+        private IEnumerator LoadAndShowCharacter()
+        {
+            character.GetComponent<NetworkPlayer>().LoadAvatar(createPlayer);
+
+          
+            yield return new WaitForSeconds(2f);
+
+            character.SetActive(true);
+        }
 
     }
 }

@@ -2,12 +2,13 @@
 using Photon.Pun;
 using Photon.Realtime;
 using ReadyPlayerMe.PhotonSupport;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 
 public class RoomList : MonoBehaviourPunCallbacks
@@ -254,15 +255,24 @@ public class RoomList : MonoBehaviourPunCallbacks
         Vector3 mySpawnPos = spawnPos.position + offset;
 
         // --- Instantiate the avatar at the computed position ---
-        character = PhotonNetwork.Instantiate(
-            "RPM_Photon_naked",    // prefab name
-            mySpawnPos,            // calculated spawn position
-            spawnPos.rotation      // reuse spawnPos rotation
-        );
-        SetCharacterView(Characters[charIndex]);
-        }
+        StartCoroutine(SpawnAndInitializeCharacter(mySpawnPos, spawnPos.rotation));
+    }
 
- 
+    private IEnumerator SpawnAndInitializeCharacter(Vector3 position, Quaternion rotation)
+    {
+       
+        character = PhotonNetwork.Instantiate("RPM_Photon_naked", position, rotation);
+        character.SetActive(false);
+
+        
+        yield return new WaitForSeconds(2f);
+
+       
+        character.SetActive(true);
+
+      
+        SetCharacterView(Characters[charIndex]);
+    }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
