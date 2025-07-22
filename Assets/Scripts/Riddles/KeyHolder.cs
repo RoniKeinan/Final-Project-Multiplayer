@@ -3,7 +3,7 @@
 public class KeyHolder : MonoBehaviour
 {
     // Whether this player currently holds the key
-    public bool HasKey { get; private set; } = false;
+    public bool HasKey { get; private set; } = true;
 
     // Call this method to give the player the key
     public void GiveKey()
