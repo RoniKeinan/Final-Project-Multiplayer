@@ -122,6 +122,15 @@ public class RoomList : MonoBehaviourPunCallbacks
     }
     public void SelectCharacter(bool increase)
     {
+
+        if (!PhotonNetwork.IsMasterClient &&
+       PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(READY_KEY) &&
+       (bool)PhotonNetwork.LocalPlayer.CustomProperties[READY_KEY])
+        {
+            Debug.Log("Cannot change character while Ready.");
+            return;
+        }
+
         Debug.Log("change char");
 
         charIndex = increase ? charIndex + 1 : charIndex - 1;
