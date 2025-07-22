@@ -6,11 +6,12 @@ TagManager:
   tags:
   - SenderTMP
   - Character
+  - lb_bird
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Moon
   - Water
   - UI
   - 
