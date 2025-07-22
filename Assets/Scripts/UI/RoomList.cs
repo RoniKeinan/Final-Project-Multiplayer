@@ -370,28 +370,44 @@ public class RoomList : MonoBehaviourPunCallbacks
 
 
 
+private static readonly Color32 NotReadyBtn = new Color32(0xFF, 0xFF, 0xFF, 0xFF); // white
+
     private void CheckStartGameCondition()
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
+        Button btn = startGameButton.GetComponent<Button>();
+        Image img = startGameButton.GetComponent<Image>();
+        TextMeshProUGUI txt = startGameButton.GetComponentInChildren<TextMeshProUGUI>(true);
+
+        // Helper local fn
+        void SetBtnState(bool interactable, Color32 colorBG, Color32 colorText)
+        {
+            if (btn) btn.interactable = interactable;
+            if (img) img.color = colorBG;
+            if (txt) txt.color = colorText;
+        }
+
+        // Not enough players
         if (PhotonNetwork.CurrentRoom.PlayerCount < PhotonNetwork.CurrentRoom.MaxPlayers)
         {
-            startGameButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+            SetBtnState(false, NotReadyCol, NotReadyCol);
             return;
         }
 
+        // Check readiness
         foreach (Player p in PhotonNetwork.PlayerList)
         {
-            if (p.IsMasterClient) continue; // ✅ Skip self
-
+            if (p.IsMasterClient) continue;
             if (!p.CustomProperties.ContainsKey(READY_KEY) || !(bool)p.CustomProperties[READY_KEY])
             {
-                startGameButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+                SetBtnState(false, NotReadyCol, NotReadyCol);
                 return;
             }
         }
 
-        startGameButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
+        // Everyone ready
+        SetBtnState(true, ReadyCol, ReadyCol);
     }
 
 
