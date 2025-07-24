@@ -51,6 +51,12 @@ public class enterHouseDoorController : MonoBehaviourPun
             CodePanel.SetActive(true);
             Debug.Log("E pressed — showing code panel.");
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && CodePanel.activeSelf)
+        {
+            CodePanel.SetActive(false);
+            Debug.Log("Esc pressed — closing code panel.");
+        }
     }
 
     private void OnTriggerEnter(Collider other)

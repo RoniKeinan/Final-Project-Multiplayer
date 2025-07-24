@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Convai.Scripts.Runtime.Attributes;
 using Convai.Scripts.Runtime.Features;
 using Convai.Scripts.Runtime.LoggerSystem;
+using ReadyPlayerMe.PhotonSupport;
 using UnityEngine;
 
 namespace Convai.Scripts.Runtime.Core
@@ -36,6 +37,7 @@ namespace Convai.Scripts.Runtime.Core
         // Singleton instance of the NPC manager.
         public static ConvaiNPCManager Instance { get; private set; }
 
+        private bool manualOverride = false;
         private void Awake()
         {
             // Singleton pattern to ensure only one instance exists
@@ -47,10 +49,13 @@ namespace Convai.Scripts.Runtime.Core
             _mainCamera = Camera.main;
         }
 
+        bool foundConvaiNPC = false;
+
         private void LateUpdate()
         {
+            foundConvaiNPC = false; // reset for this frame
+
             Ray ray = new(_mainCamera.transform.position, _mainCamera.transform.forward);
-            bool foundConvaiNPC = false;
 
             if (Physics.RaycastNonAlloc(ray, RaycastHits, rayLength) > 0)
             {
@@ -65,11 +70,12 @@ namespace Convai.Scripts.Runtime.Core
                     if (_lastHitNpc != nearbyNPC && !CheckForNPCToNPCConversation(nearbyNPC))
                     {
                         UpdateActiveNPC(nearbyNPC);
+                        manualOverride = false;
                     }
                 }
             }
 
-            if (!foundConvaiNPC && _lastHitNpc != null)
+            if (!foundConvaiNPC && _lastHitNpc != null && !manualOverride)
             {
                 Vector3 toLastHitNPC = _lastHitNpc.transform.position - ray.origin;
                 float angleToLastHitNPC = Vector3.Angle(ray.direction, toLastHitNPC.normalized);
@@ -80,6 +86,37 @@ namespace Convai.Scripts.Runtime.Core
                     ConvaiLogger.DebugLog($"Player left {_lastHitNpc.gameObject.name}", ConvaiLogger.LogCategory.Character);
                     UpdateActiveNPC(null);
                 }
+            }
+        }
+
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.H))
+            {
+                OpenChatBox();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                manualOverride = false;
+                UpdateActiveNPC(null);
+            }
+        }
+        public void OpenChatBox()
+        {
+            ConvaiNPC npc = GameObject.Find("Convai NPC Mike Carter")?.GetComponent<ConvaiNPC>();
+
+            if (npc == null)
+                npc = FindFirstObjectByType<ConvaiNPC>();
+
+            if (npc != null)
+            {
+                manualOverride = true;
+                UpdateActiveNPC(npc);
+            }
+            else
+            {
+                Debug.LogWarning("No NPC found to talk to.");
             }
         }
 
