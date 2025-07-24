@@ -1012,10 +1012,10 @@ RectTransform:
   - {fileID: 1388371462}
   m_Father: {fileID: 2062468033}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 16.0482, y: -2.1469116}
-  m_SizeDelta: {x: 1200, y: -200.4384}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1170.4471, y: 773.45557}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &71009969
 MonoBehaviour:
@@ -2474,6 +2474,14 @@ PrefabInstance:
     - target: {fileID: 3973251519004208318, guid: cc9605b0d2902a849aeab83a50df8bdd, type: 3}
       propertyPath: m_Name
       value: Convai NPC Mike Carter
+      objectReference: {fileID: 0}
+    - target: {fileID: 6242094742071033383, guid: cc9605b0d2902a849aeab83a50df8bdd, type: 3}
+      propertyPath: characterID
+      value: 4a04c670-6898-11f0-9dc1-42010a7be01f
+      objectReference: {fileID: 0}
+    - target: {fileID: 6242094742071033383, guid: cc9605b0d2902a849aeab83a50df8bdd, type: 3}
+      propertyPath: characterName
+      value: evyatar
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11471,10 +11479,10 @@ RectTransform:
   - {fileID: 373821103}
   m_Father: {fileID: 812819472}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -8.416748, y: 108.8336}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -584, y: 0}
+  m_SizeDelta: {x: 1152.7146, y: 126}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &943042247
 MonoBehaviour:
@@ -22644,10 +22652,10 @@ RectTransform:
   - {fileID: 1504876151}
   m_Father: {fileID: 1166672518}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5, y: -1.6838989}
-  m_SizeDelta: {x: -456.861, y: -86.632}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1463.139, y: 993.368}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2062468034
 MonoBehaviour:
@@ -34900,6 +34908,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 943042246}
     m_Modifications:
+    - target: {fileID: 1041889825024491613, guid: 87463969d5d8189459860ecd19359a3b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2550556035273717290, guid: 87463969d5d8189459860ecd19359a3b, type: 3}
       propertyPath: m_fontColor.b
       value: 1
@@ -34982,11 +34994,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4716654597817081668, guid: 87463969d5d8189459860ecd19359a3b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1191.5833
+      value: 1152.7146
       objectReference: {fileID: 0}
     - target: {fileID: 4716654597817081668, guid: 87463969d5d8189459860ecd19359a3b, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 108.8336
+      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 4716654597817081668, guid: 87463969d5d8189459860ecd19359a3b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -35018,11 +35030,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4716654597817081668, guid: 87463969d5d8189459860ecd19359a3b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 595.7916
+      value: 576.3573
       objectReference: {fileID: 0}
     - target: {fileID: 4716654597817081668, guid: 87463969d5d8189459860ecd19359a3b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -54.4168
+      value: -63
       objectReference: {fileID: 0}
     - target: {fileID: 4716654597817081668, guid: 87463969d5d8189459860ecd19359a3b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
