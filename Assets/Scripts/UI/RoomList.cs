@@ -146,6 +146,12 @@ public class RoomList : MonoBehaviourPunCallbacks
 
         SetCharacterView(Characters[charIndex]);
 
+        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
+        {
+              { "CharacterURL", Characters[charIndex] }
+          };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
     }
 
 
@@ -270,8 +276,25 @@ public class RoomList : MonoBehaviourPunCallbacks
         character = PhotonNetwork.Instantiate("RPM_Photon_naked", mySpawnPos, spawnPos.rotation);
         character.SetActive(false);
 
-        // --- Instantiate the avatar at the computed position ---
-        StartCoroutine(SpawnAndInitializeCharacter());
+        string selectedUrl = Characters[charIndex];
+
+        // Check if the player has a previously selected character
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("CharacterURL", out object urlFromProps))
+        {
+            selectedUrl = urlFromProps as string;
+            charIndex = Characters.IndexOf(selectedUrl);
+        }
+
+        StartCoroutine(SpawnAndInitializeCharacter(selectedUrl));
+    }
+
+    private IEnumerator SpawnAndInitializeCharacter(string url)
+    {
+        SetCharacterView(url); // Load avatar from saved or default URL
+
+        yield return new WaitForSeconds(3f);
+
+        character.SetActive(true);
     }
 
     private IEnumerator SpawnAndInitializeCharacter()
@@ -296,6 +319,16 @@ public class RoomList : MonoBehaviourPunCallbacks
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         UpdatePlayerListUI();
+
+        if (targetPlayer == PhotonNetwork.LocalPlayer && changedProps.ContainsKey("CharacterURL"))
+        {
+            string newUrl = changedProps["CharacterURL"] as string;
+            if (!string.IsNullOrEmpty(newUrl))
+            {
+                SetCharacterView(newUrl);
+            }
+        }
+
         UpdateReadyButtonUI();
     }
 
