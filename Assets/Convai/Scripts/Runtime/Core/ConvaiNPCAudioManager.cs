@@ -32,6 +32,7 @@ namespace Convai.Scripts.Runtime.Core
             _lastTalkingState = false;
         }
 
+ 
         private void OnEnable()
         {
             _playInOrderCoroutine = StartCoroutine(PlayAudioInOrder());
@@ -84,16 +85,28 @@ namespace Convai.Scripts.Runtime.Core
 
             if (PhotonNetwork.IsConnected && PhotonNetwork.InRoom)
             {
-                // Convert AudioClip to byte[] (WAV format or PCM)
                 byte[] audioData = WavUtility.FromAudioClip(responseAudio.AudioClip);
 
-                photonView.RPC("RPC_PlayNetworkedAudio", RpcTarget.Others, audioData, responseAudio.AudioTranscript);
+                if (audioData != null && audioData.Length < 200_000) 
+                {
+                    photonView.RPC("RPC_PlayNetworkedAudio", RpcTarget.Others, audioData, responseAudio.AudioTranscript);
+                }
+                else
+                {
+                    Debug.LogWarning($"Audio data too large to send via RPC: {audioData?.Length ?? 0} bytes");
+                }
             }
         }
 
         [PunRPC]
         private void RPC_PlayNetworkedAudio(byte[] audioData, string transcript)
         {
+
+            if (audioData == null || audioData.Length < 44)
+            {
+                Debug.LogWarning("Invalid audio data received in RPC.");
+                return;
+            }
             // Convert byte[] back to AudioClip
             AudioClip clip = WavUtility.ToAudioClip(audioData, "NetworkedClip");
 
