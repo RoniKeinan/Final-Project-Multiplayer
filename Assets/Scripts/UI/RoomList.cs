@@ -35,7 +35,7 @@ public class RoomList : MonoBehaviourPunCallbacks
     public GameObject createRoomButton;
     public GameObject leaveeRoomButton;
     public TextMeshProUGUI waitingText;
-    public TMP_InputField maxPlayersInput;
+    public TMP_Dropdown maxPlayersDropdown;
     public TextMeshProUGUI maxplayerstext;
     public TextMeshProUGUI roomNameText;
     public GameObject charPanel;
@@ -71,16 +71,30 @@ public class RoomList : MonoBehaviourPunCallbacks
             PhotonNetwork.LeaveRoom();
             PhotonNetwork.Disconnect();
         }
+        maxPlayersDropdown.gameObject.SetActive(false);
+        SetNameButton.interactable = false;
+        SetNameButton.onClick.AddListener(OnSetNameClicked);
+        playerNameInput.onValueChanged.AddListener(OnPlayerNameChanged);
         SetNameButton.onClick.AddListener(OnSetNameClicked);
         chooseRoomTitle.gameObject.SetActive(false);
         roomNameInput.gameObject.SetActive(false);
         roomsScreenHolder.gameObject.SetActive(false);
         createRoomButton.gameObject.SetActive(false);
-        maxPlayersInput.gameObject.SetActive(false);
-        maxplayerstext.gameObject.SetActive(false);    
+        maxplayerstext.gameObject.SetActive(false);
+        // Populate dropdown with values from 1 to 5
+        maxPlayersDropdown.ClearOptions();
+        List<string> options = new List<string> { "1", "2", "3", "4", "5" };
+        maxPlayersDropdown.AddOptions(options);
+        maxPlayersDropdown.value = 0; // default is 1 player
+
 
         PhotonNetwork.ConnectUsingSettings();
     }
+    private void OnPlayerNameChanged(string name)
+    {
+        SetNameButton.interactable = !string.IsNullOrWhiteSpace(name);
+    }
+
 
     private void OnSetNameClicked()
     {
@@ -89,8 +103,8 @@ public class RoomList : MonoBehaviourPunCallbacks
         roomNameInput.gameObject.SetActive(true);
         roomsScreenHolder.gameObject.SetActive(true);
         createRoomButton.gameObject.SetActive(true);
-        maxPlayersInput.gameObject.SetActive(true);
         maxplayerstext.gameObject.SetActive(true);
+        maxPlayersDropdown.gameObject.SetActive(true);
 
         if (!string.IsNullOrWhiteSpace(playerName))
         {
@@ -219,15 +233,12 @@ public class RoomList : MonoBehaviourPunCallbacks
                 ? roomNameInput.text
                 : "Room" + UnityEngine.Random.Range(1000, 9999);
 
-            byte maxPlayers = 1; 
-            if (byte.TryParse(maxPlayersInput.text, out byte parsedValue))
-            {
-                maxPlayers = parsedValue;
-            }
+            // Get selected number of players from dropdown (index 0 = "1", index 4 = "5")
+            int maxPlayers = maxPlayersDropdown.value + 1; // value is index, so +1 to get actual number
 
             RoomOptions options = new RoomOptions
             {
-                MaxPlayers = maxPlayers,
+                MaxPlayers = (byte)maxPlayers,
                 IsVisible = true,
                 IsOpen = true
             };
@@ -236,6 +247,7 @@ public class RoomList : MonoBehaviourPunCallbacks
             roomNameInput.gameObject.SetActive(false);
         }
     }
+
 
     public override void OnJoinedRoom()
     {
@@ -250,8 +262,8 @@ public class RoomList : MonoBehaviourPunCallbacks
         createRoomButton.SetActive(false);
         leaveeRoomButton.SetActive(true);
         roomNameInput.gameObject.SetActive(false);
-        maxPlayersInput.gameObject.SetActive(false);
         maxplayerstext.gameObject.SetActive(false);
+        maxPlayersDropdown.gameObject.SetActive(false);
 
         roomNameText.text = PhotonNetwork.CurrentRoom.Name + " Room";
         PlayerPrefs.SetString("RoomName", PhotonNetwork.CurrentRoom.Name);
@@ -321,27 +333,34 @@ public class RoomList : MonoBehaviourPunCallbacks
         StartCoroutine(SpawnAndInitializeCharacter(selectedUrl));
     }
 
+
     private IEnumerator SpawnAndInitializeCharacter(string url)
     {
-        SetCharacterView(url); // Load avatar from saved or default URL
+        // Safety check: if the character object was destroyed before loading completed
+        if (character == null)
+        {
+            Debug.LogWarning("Character GameObject was destroyed before avatar initialization.");
+            yield break;
+        }
 
+        // Load the avatar from the given URL
+        SetCharacterView(url);
+
+        // Wait for avatar to finish loading
         yield return new WaitForSeconds(3f);
 
-        character.SetActive(true);
+        // Activate the character only if it's still valid
+        if (character != null)
+        {
+            character.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("Character GameObject no longer exists after loading avatar.");
+        }
     }
 
-    private IEnumerator SpawnAndInitializeCharacter()
-    {
-        SetCharacterView(Characters[charIndex]);
 
-        yield return new WaitForSeconds(3f);
-
-       
-        character.SetActive(true);
-
-      
-       
-    }
 
     private void SetCharacterView(string url)
     {
@@ -522,8 +541,9 @@ private static readonly Color32 NotReadyBtn = new Color32(0xFF, 0xFF, 0xFF, 0xFF
         createRoomButton.SetActive(true);
         charPanel.gameObject.SetActive(false);
         roomNameInput.gameObject.SetActive(true);
-        maxPlayersInput.gameObject.SetActive(true);
         maxplayerstext.gameObject.SetActive(true);
+        maxPlayersDropdown.gameObject.SetActive(true);
+
 
 
         foreach (Transform child in playerListParent)
@@ -564,8 +584,5 @@ private static readonly Color32 NotReadyBtn = new Color32(0xFF, 0xFF, 0xFF, 0xFF
 
         CheckStartGameCondition();
     }
-
-
-
 
 }
