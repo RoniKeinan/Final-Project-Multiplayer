@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -86,6 +87,7 @@ public class RoomList : MonoBehaviourPunCallbacks
         List<string> options = new List<string> { "1", "2", "3", "4", "5" };
         maxPlayersDropdown.AddOptions(options);
         maxPlayersDropdown.value = 0; // default is 1 player
+        charPanel.gameObject.SetActive(false);
 
 
         PhotonNetwork.ConnectUsingSettings();
