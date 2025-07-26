@@ -46,7 +46,7 @@ public class enterHouseDoorController : MonoBehaviourPun
             codeTextValue = "";
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && isAtDoor)
+        if (Input.GetKeyDown(KeyCode.E) && isAtDoor && !door_animator.GetBool("isOpen"))
         {
             CodePanel.SetActive(true);
             Debug.Log("E pressed — showing code panel.");
