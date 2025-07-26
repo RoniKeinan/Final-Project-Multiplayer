@@ -2477,11 +2477,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6242094742071033383, guid: cc9605b0d2902a849aeab83a50df8bdd, type: 3}
       propertyPath: characterID
-      value: 4a04c670-6898-11f0-9dc1-42010a7be01f
+      value: 089a45c0-ada4-11ef-8a7f-42010a7be016
       objectReference: {fileID: 0}
     - target: {fileID: 6242094742071033383, guid: cc9605b0d2902a849aeab83a50df8bdd, type: 3}
       propertyPath: characterName
-      value: evyatar
+      value: Mike
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
