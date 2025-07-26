@@ -2,6 +2,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 using ReadyPlayerMe.PhotonSupport;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -211,7 +212,7 @@ public class RoomList : MonoBehaviourPunCallbacks
         {
             string roomName = !string.IsNullOrEmpty(roomNameInput?.text)
                 ? roomNameInput.text
-                : "Room" + Random.Range(1000, 9999);
+                : "Room" + UnityEngine.Random.Range(1000, 9999);
 
             RoomOptions options = new RoomOptions
             {
@@ -230,7 +231,7 @@ public class RoomList : MonoBehaviourPunCallbacks
     {
         Debug.Log("Joined room: " + PhotonNetwork.CurrentRoom.Name);
 
-        // --- UI setup (no changes) ---
+        // --- UI setup ---
         roomListParent.gameObject.SetActive(false);
         chooseRoomTitle.gameObject.SetActive(false);
         playerNameInput.gameObject.SetActive(true);
@@ -239,51 +240,71 @@ public class RoomList : MonoBehaviourPunCallbacks
         createRoomButton.SetActive(false);
         leaveeRoomButton.SetActive(true);
         roomNameInput.gameObject.SetActive(false);
-        UpdatePlayerListUI();
-        readyButton.SetActive(!PhotonNetwork.IsMasterClient);
-        startGameButton.SetActive(PhotonNetwork.IsMasterClient);
-        if (!PhotonNetwork.IsMasterClient) SetReady(false);
-        else SetReady(true);
+
         roomNameText.text = PhotonNetwork.CurrentRoom.Name + " Room";
-
-
         PlayerPrefs.SetString("RoomName", PhotonNetwork.CurrentRoom.Name);
 
-        List<string> playerNames = new List<string>();
+        UpdatePlayerListUI();
 
+        readyButton.SetActive(!PhotonNetwork.IsMasterClient);
+        startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+        SetReady(PhotonNetwork.IsMasterClient); // Master = ready, others = not ready
+
+        // Store all player names in PlayerPrefs
+        List<string> playerNames = new List<string>();
         foreach (Player p in PhotonNetwork.PlayerList)
         {
-            string name = p.CustomProperties.ContainsKey("PlayerName")
-                ? (string)p.CustomProperties["PlayerName"]
-                : "Player " + p.ActorNumber;
-
+            string name = p.CustomProperties.TryGetValue("PlayerName", out object val) ? val as string : "Player " + p.ActorNumber;
             playerNames.Add(name);
         }
+        PlayerPrefs.SetString("PlayerNames", string.Join(",", playerNames));
 
-        string allNamesCsv = string.Join(",", playerNames);
-        PlayerPrefs.SetString("PlayerNames", allNamesCsv);
+        // === SPAWN POSITION LOGIC ===
+        Vector3 mySpawnPos;
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("SpawnX", out object xObj) &&
+            PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("SpawnY", out object yObj) &&
+            PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("SpawnZ", out object zObj))
+        {
+            float x = Convert.ToSingle(xObj);
+            float y = Convert.ToSingle(yObj);
+            float z = Convert.ToSingle(zObj);
+            mySpawnPos = new Vector3(x, y, z);
+        }
+        else
+        {
+            Player[] players = PhotonNetwork.PlayerList;
+            int myIndex = Array.IndexOf(players, PhotonNetwork.LocalPlayer);
+            Vector3 offset = Vector3.left * (myIndex * spacing);
+            mySpawnPos = spawnPos.position + offset;
 
-        // --- Calculate a unique spawn position for this player ---
-        // 1. Get the sorted list of players
-        Player[] players = PhotonNetwork.PlayerList;
-        // 2. Find my index in that list (0-based)
-        int myIndex = System.Array.IndexOf(players, PhotonNetwork.LocalPlayer);
-        // 3. Compute offset to the left (you can switch to Vector3.right if you prefer)
-        Vector3 offset = Vector3.left * (myIndex * spacing);
-        // 4. Final spawn position
-        Vector3 mySpawnPos = spawnPos.position + offset;
+            // Save new spawn position
+            ExitGames.Client.Photon.Hashtable spawnProps = new ExitGames.Client.Photon.Hashtable
+        {
+            { "SpawnX", mySpawnPos.x },
+            { "SpawnY", mySpawnPos.y },
+            { "SpawnZ", mySpawnPos.z }
+        };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(spawnProps);
+        }
 
-        character = PhotonNetwork.Instantiate("RPM_Photon_naked", mySpawnPos, spawnPos.rotation);
-        character.SetActive(false);
+        // === CHARACTER SELECTION ===
+        string selectedUrl = Characters != null && charIndex >= 0 && charIndex < Characters.Count
+            ? Characters[charIndex]
+            : "";
 
-        string selectedUrl = Characters[charIndex];
-
-        // Check if the player has a previously selected character
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("CharacterURL", out object urlFromProps))
         {
             selectedUrl = urlFromProps as string;
-            charIndex = Characters.IndexOf(selectedUrl);
+            if (!string.IsNullOrEmpty(selectedUrl) && Characters.Contains(selectedUrl))
+            {
+                charIndex = Characters.IndexOf(selectedUrl);
+            }
         }
+
+        // === CHARACTER INSTANTIATION ===
+        string prefabName = "RPM_Photon_naked";
+        character = PhotonNetwork.Instantiate(prefabName, mySpawnPos, spawnPos.rotation);
+        character.SetActive(false); // Wait until character fully loads before showing
 
         StartCoroutine(SpawnAndInitializeCharacter(selectedUrl));
     }
