@@ -3,6 +3,7 @@
 using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
+using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,7 +116,10 @@ public class LeaderBoardManager : MonoBehaviour
 
     public void BackToLobby()
     {
-        Photon.Pun.PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene("MainMenu");
+    
+        
+        SceneManager.LoadScene("MainMenu"); 
+        
+       
     }
 }

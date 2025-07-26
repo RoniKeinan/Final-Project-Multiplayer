@@ -3208,7 +3208,7 @@ MonoBehaviour:
   createRoomButton: {fileID: 2010970851}
   leaveeRoomButton: {fileID: 703515598}
   waitingText: {fileID: 856909610}
-  maxPlayers: 2
+  maxPlayers: 1
   roomNameText: {fileID: 1473411026}
   charPanel: {fileID: 1533022680}
   playerListParent: {fileID: 1498772517}
