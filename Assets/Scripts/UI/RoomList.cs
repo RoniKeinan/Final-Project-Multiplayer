@@ -265,7 +265,7 @@ public class RoomList : MonoBehaviourPunCallbacks
         maxplayerstext.gameObject.SetActive(false);
         maxPlayersDropdown.gameObject.SetActive(false);
 
-        roomNameText.text = PhotonNetwork.CurrentRoom.Name + " Room";
+        roomNameText.text = " Room: "+ PhotonNetwork.CurrentRoom.Name;
         PlayerPrefs.SetString("RoomName", PhotonNetwork.CurrentRoom.Name);
 
         UpdatePlayerListUI();
