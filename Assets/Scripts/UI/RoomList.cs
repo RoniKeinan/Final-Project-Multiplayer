@@ -35,7 +35,8 @@ public class RoomList : MonoBehaviourPunCallbacks
     public GameObject createRoomButton;
     public GameObject leaveeRoomButton;
     public TextMeshProUGUI waitingText;
-    public int maxPlayers;
+    public TMP_InputField maxPlayersInput;
+    public TextMeshProUGUI maxplayerstext;
     public TextMeshProUGUI roomNameText;
     public GameObject charPanel;
 
@@ -75,6 +76,8 @@ public class RoomList : MonoBehaviourPunCallbacks
         roomNameInput.gameObject.SetActive(false);
         roomsScreenHolder.gameObject.SetActive(false);
         createRoomButton.gameObject.SetActive(false);
+        maxPlayersInput.gameObject.SetActive(false);
+        maxplayerstext.gameObject.SetActive(false);    
 
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -86,6 +89,8 @@ public class RoomList : MonoBehaviourPunCallbacks
         roomNameInput.gameObject.SetActive(true);
         roomsScreenHolder.gameObject.SetActive(true);
         createRoomButton.gameObject.SetActive(true);
+        maxPlayersInput.gameObject.SetActive(true);
+        maxplayerstext.gameObject.SetActive(true);
 
         if (!string.IsNullOrWhiteSpace(playerName))
         {
@@ -214,6 +219,12 @@ public class RoomList : MonoBehaviourPunCallbacks
                 ? roomNameInput.text
                 : "Room" + UnityEngine.Random.Range(1000, 9999);
 
+            byte maxPlayers = 1; 
+            if (byte.TryParse(maxPlayersInput.text, out byte parsedValue))
+            {
+                maxPlayers = parsedValue;
+            }
+
             RoomOptions options = new RoomOptions
             {
                 MaxPlayers = maxPlayers,
@@ -223,7 +234,6 @@ public class RoomList : MonoBehaviourPunCallbacks
 
             PhotonNetwork.CreateRoom(roomName, options);
             roomNameInput.gameObject.SetActive(false);
-
         }
     }
 
@@ -240,6 +250,8 @@ public class RoomList : MonoBehaviourPunCallbacks
         createRoomButton.SetActive(false);
         leaveeRoomButton.SetActive(true);
         roomNameInput.gameObject.SetActive(false);
+        maxPlayersInput.gameObject.SetActive(false);
+        maxplayerstext.gameObject.SetActive(false);
 
         roomNameText.text = PhotonNetwork.CurrentRoom.Name + " Room";
         PlayerPrefs.SetString("RoomName", PhotonNetwork.CurrentRoom.Name);
@@ -510,6 +522,8 @@ private static readonly Color32 NotReadyBtn = new Color32(0xFF, 0xFF, 0xFF, 0xFF
         createRoomButton.SetActive(true);
         charPanel.gameObject.SetActive(false);
         roomNameInput.gameObject.SetActive(true);
+        maxPlayersInput.gameObject.SetActive(true);
+        maxplayerstext.gameObject.SetActive(true);
 
 
         foreach (Transform child in playerListParent)
