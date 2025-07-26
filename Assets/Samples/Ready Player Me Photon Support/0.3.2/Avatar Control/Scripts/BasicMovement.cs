@@ -1,4 +1,4 @@
-#if PHOTON_UNITY_NETWORKING
+﻿#if PHOTON_UNITY_NETWORKING
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -91,21 +91,31 @@ namespace ReadyPlayerMe.PhotonSupport
             animator.SetBool(WALK_ANIM, z != 0);
         }
 
+        [PunRPC]
+        public void TriggerAnimation(string triggerName)
+        {
+            animator.SetTrigger(triggerName);
+        }
+
         private void HandleJump()
         {
             if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
             {
-                isGrounded = false; // Reset in OnCollisionEnter
+                isGrounded = false;
                 animator.SetTrigger("Jump");
 
+                // 🔁 עדכן גם את האחרים
+                photonView.RPC("TriggerAnimation", RpcTarget.Others, "Jump");
             }
         }
+
 
         private void HandleDancing()
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
                 animator.SetTrigger("Dancing");
+                photonView.RPC("TriggerAnimation", RpcTarget.Others, "Dancing");
             }
         }
 

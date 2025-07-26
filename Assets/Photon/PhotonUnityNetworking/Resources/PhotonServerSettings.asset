@@ -54,6 +54,7 @@ MonoBehaviour:
   - RPC_ShowTranscript
   - RPC_PlayNetworkedAudio
   - RotatePointerRPC
+  - TriggerAnimation
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
