@@ -26006,6 +26006,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeadBoardPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 2686774704802372433, guid: b6f87665d2a36b64986008932bd9657f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686774704802372433, guid: b6f87665d2a36b64986008932bd9657f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3415089797927711802, guid: b6f87665d2a36b64986008932bd9657f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -26088,6 +26096,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5429577442603478960, guid: b6f87665d2a36b64986008932bd9657f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561189061525370580, guid: b6f87665d2a36b64986008932bd9657f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561189061525370580, guid: b6f87665d2a36b64986008932bd9657f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561189061525370580, guid: b6f87665d2a36b64986008932bd9657f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561189061525370580, guid: b6f87665d2a36b64986008932bd9657f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941772669668242111, guid: b6f87665d2a36b64986008932bd9657f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941772669668242111, guid: b6f87665d2a36b64986008932bd9657f, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
