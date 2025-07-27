@@ -88,7 +88,7 @@ public class RoomList : MonoBehaviourPunCallbacks
         maxplayerstext.gameObject.SetActive(false);
         // Populate dropdown with values from 1 to 5
         maxPlayersDropdown.ClearOptions();
-        List<string> options = new List<string> { "1", "2", "3", "4", "5" };
+        List<string> options = new List<string> { "1", "2", "3"};
         maxPlayersDropdown.AddOptions(options);
         maxPlayersDropdown.value = 0; // default is 1 player
         charPanel.gameObject.SetActive(false);
