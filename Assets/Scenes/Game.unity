@@ -28330,6 +28330,7 @@ MonoBehaviour:
   victory: {fileID: 8300000, guid: 192c872109c705046b9dda311afba027, type: 3}
   audioSource: {fileID: 317291162}
   leaderboardManager: {fileID: 386376835}
+  leaderboardPanel: {fileID: 2062468032}
 --- !u!114 &4975986465935373847
 MonoBehaviour:
   m_ObjectHideFlags: 0
