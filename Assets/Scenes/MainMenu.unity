@@ -7104,6 +7104,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1102404055}
     m_Modifications:
+    - target: {fileID: 28666016987455932, guid: 04e4c03db70f71d42b4d479a5e182ac4, type: 3}
+      propertyPath: m_Color.a
+      value: 0.8117647
+      objectReference: {fileID: 0}
     - target: {fileID: 2429806509750594470, guid: 04e4c03db70f71d42b4d479a5e182ac4, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -7118,7 +7122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2429806509750594470, guid: 04e4c03db70f71d42b4d479a5e182ac4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -27.720001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3875468174967277699, guid: 04e4c03db70f71d42b4d479a5e182ac4, type: 3}
       propertyPath: m_Name
@@ -7190,11 +7194,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4745938484119344418, guid: 04e4c03db70f71d42b4d479a5e182ac4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 783.71
+      value: 779
       objectReference: {fileID: 0}
     - target: {fileID: 4745938484119344418, guid: 04e4c03db70f71d42b4d479a5e182ac4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 132
+      value: 319
       objectReference: {fileID: 0}
     - target: {fileID: 4745938484119344418, guid: 04e4c03db70f71d42b4d479a5e182ac4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7218,7 +7222,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6992587498672010523, guid: 04e4c03db70f71d42b4d479a5e182ac4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -48.86
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
