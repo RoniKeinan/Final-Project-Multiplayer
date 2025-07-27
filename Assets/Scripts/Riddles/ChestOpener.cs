@@ -27,7 +27,7 @@ public class ChestOpener : MonoBehaviourPun
 
                 if (holder.HasKey)
                 {
-                    audioSource.PlayOneShot(victory);
+                  
 
                     photonView.RPC("OpenChest", RpcTarget.All);
                     Debug.Log("open chest ksksks");
@@ -51,6 +51,8 @@ public class ChestOpener : MonoBehaviourPun
         Debug.Log("🧰 Chest is opened!");
 
         chestOpen.SetBool("isOpen",true);
+
+        audioSource.PlayOneShot(victory);
 
         GameTimer timer = Object.FindFirstObjectByType<GameTimer>();
         if (timer != null)

@@ -4173,6 +4173,7 @@ MonoBehaviour:
   chooseRoomTitle: {fileID: 1785214005}
   roomsScreenHolder: {fileID: 1582672530}
   MusicPlayer: {fileID: 1605201024}
+  introMusicClip: {fileID: 8300000, guid: b3e7e068f61b05b43b8defa9dcbbe5ed, type: 3}
   enterNamePanel: {fileID: 1922230458}
   SetNameButton: {fileID: 27165703}
   playerNameInput: {fileID: 2040723363}
@@ -5508,9 +5509,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b3e7e068f61b05b43b8defa9dcbbe5ed, type: 3}
-  m_Resource: {fileID: 8300000, guid: b3e7e068f61b05b43b8defa9dcbbe5ed, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 0.39
   m_Pitch: 1
   Loop: 1
