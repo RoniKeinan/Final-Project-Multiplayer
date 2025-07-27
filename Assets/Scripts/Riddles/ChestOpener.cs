@@ -13,6 +13,8 @@ public class ChestOpener : MonoBehaviourPun
 
 
     public LeaderBoardManager leaderboardManager;
+
+    public GameObject leaderboardPanel;
     private void OnTriggerEnter(Collider other)
     {
         if (isOpen) return;
@@ -53,6 +55,7 @@ public class ChestOpener : MonoBehaviourPun
         Debug.Log("🧰 Chest is opened!");
         chestOpen.SetBool("isOpen", true);
         audioSource.PlayOneShot(victory);
+        leaderboardPanel.SetActive(true);
 
         GameTimer timer = Object.FindFirstObjectByType<GameTimer>();
         if (timer != null)

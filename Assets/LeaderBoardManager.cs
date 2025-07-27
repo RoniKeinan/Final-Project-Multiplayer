@@ -36,7 +36,7 @@ public class LeaderBoardManager : MonoBehaviour
         string timeStr = PlayerPrefs.GetString("time", "123");
         int.TryParse(timeStr, out timeInSeconds);
 
-        leaderboardPanel.SetActive(true);
+       
 
         if (fireBaseManager.TryGetComponent<FirebaseManager>(out var firebase))
         {
