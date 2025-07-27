@@ -26,12 +26,10 @@ public class KnobRotator : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!pv.IsMine) return; // רק השחקן שולט בזה
-
         currentState = (currentState + 1) % 4;
         float angle = currentState * -90f;
 
-        pv.RPC("RotatePointerRPC", RpcTarget.AllBuffered, currentState); // שלח לכולם
+        pv.RPC("RotatePointerRPC", RpcTarget.AllBuffered, currentState); 
         controller?.CheckKnobStates();
     }
 
