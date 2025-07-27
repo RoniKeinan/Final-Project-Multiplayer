@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using UnityEngine.Audio;
+
 
 public class enterHouseDoorController : MonoBehaviourPun
 {
@@ -8,6 +10,9 @@ public class enterHouseDoorController : MonoBehaviourPun
     public string safeCode;
     public GameObject CodePanel;
     [SerializeField] private Transform doorTransform;
+    [SerializeField] private AudioClip buttonClickedSfx;
+    [SerializeField] private AudioSource audioSource;
+
 
     private string codeTextValue = "";
     private bool isAtDoor = false;
@@ -80,6 +85,7 @@ public class enterHouseDoorController : MonoBehaviourPun
 
     public void AddDigit(string digit)
     {
+        audioSource.PlayOneShot(buttonClickedSfx);
         codeTextValue += digit;
         Debug.Log($"Digit added: {digit} | Current code: {codeTextValue}");
     }
