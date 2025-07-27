@@ -55,6 +55,9 @@ MonoBehaviour:
   - RPC_PlayNetworkedAudio
   - RotatePointerRPC
   - TriggerAnimation
+  - ReceivePlayerName
+  - RequestNamesFromPlayers
+  - TriggerFetch
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

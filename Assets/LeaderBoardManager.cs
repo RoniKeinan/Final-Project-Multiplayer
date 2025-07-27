@@ -22,34 +22,52 @@ public class LeaderBoardManager : MonoBehaviour
     private string roomName;
     private string playerNames;
     private int timeInSeconds;
-
+    private PhotonView photonView;
     private void Start()
     {
         // Load data from PlayerPrefs safely
- 
+        photonView = GetComponent<PhotonView>();
     }
 
     public void OnLastRiddleSolved()
     {
         roomName = PlayerPrefs.GetString("RoomName", "UnknownRoom");
-        playerNames = PlayerPrefs.GetString("PlayerNames", "UnknownPlayers");
+
+        // Store all player names in PlayerPrefs
+        List<string> playerNames = new List<string>();
+        foreach (Player p in PhotonNetwork.PlayerList)
+        {
+            string name = p.CustomProperties.TryGetValue("PlayerName", out object val) ? val as string : "Player " + p.ActorNumber;
+            playerNames.Add(name);
+        }
+       
+
+        string allNames = string.Join(", ", playerNames);
+
         string timeStr = PlayerPrefs.GetString("time", "123");
         int.TryParse(timeStr, out timeInSeconds);
 
-       
+
 
         if (fireBaseManager.TryGetComponent<FirebaseManager>(out var firebase))
         {
-            firebase.SaveScore(playerNames, timeInSeconds, roomName, () =>
+            firebase.SaveScore(allNames, timeInSeconds, roomName, () =>
             {
-                // ✅ When save is done, fetch & refresh leaderboard
-                FetchFromFireBase();
+                Debug.Log("✅ Done saving. Now notify all players.");
+                photonView.RPC("TriggerFetch", RpcTarget.All); 
             });
         }
         else
         {
             Debug.LogError("❌ FirebaseManager component not found on fireBaseManager GameObject.");
         }
+    }
+
+    [PunRPC]
+    public void TriggerFetch()
+    {
+        Debug.Log("📥 Fetching leaderboard from Firebase...");
+        FetchFromFireBase();
     }
 
     public void FetchFromFireBase()

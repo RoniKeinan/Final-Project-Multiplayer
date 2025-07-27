@@ -290,14 +290,7 @@ public class RoomList : MonoBehaviourPunCallbacks
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
         SetReady(PhotonNetwork.IsMasterClient); // Master = ready, others = not ready
 
-        // Store all player names in PlayerPrefs
-        List<string> playerNames = new List<string>();
-        foreach (Player p in PhotonNetwork.PlayerList)
-        {
-            string name = p.CustomProperties.TryGetValue("PlayerName", out object val) ? val as string : "Player " + p.ActorNumber;
-            playerNames.Add(name);
-        }
-        PlayerPrefs.SetString("PlayerNames", string.Join(",", playerNames));
+   
 
         // === SPAWN POSITION LOGIC ===
         Vector3 mySpawnPos;

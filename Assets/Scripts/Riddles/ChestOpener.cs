@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using System.Collections;
 
 
 
@@ -72,9 +73,11 @@ public class ChestOpener : MonoBehaviourPun
         else
         {
             Debug.Log("⏩ Not master, skipping Firebase score save.");
-            leaderboardManager?.FetchFromFireBase(); // ✅ Others just fetch
+           
         }
     }
+
+
 
 
 }
