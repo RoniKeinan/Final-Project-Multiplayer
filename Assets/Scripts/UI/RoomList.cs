@@ -24,6 +24,8 @@ public class RoomList : MonoBehaviourPunCallbacks
 
     [Header("BG Music")]
     public GameObject MusicPlayer;
+    public AudioClip introMusicClip;
+    private AudioSource musicSource;
 
     [Header("Name Entry Panel")]
     public GameObject enterNamePanel;
@@ -91,11 +93,23 @@ public class RoomList : MonoBehaviourPunCallbacks
         maxPlayersDropdown.AddOptions(options);
         maxPlayersDropdown.value = 0; // default is 1 player
         charPanel.gameObject.SetActive(false);
-        DontDestroyOnLoad(MusicPlayer);
+       
+        
+        musicSource = MusicPlayer.GetComponentInChildren<AudioSource>();
+
+        if (musicSource != null && introMusicClip != null)
+        {
+            musicSource.clip = introMusicClip;
+            musicSource.Play();
+          
+        }
+
 
 
         PhotonNetwork.ConnectUsingSettings();
     }
+
+
     private void OnPlayerNameChanged(string name)
     {
         SetNameButton.interactable = !string.IsNullOrWhiteSpace(name);
@@ -123,6 +137,7 @@ public class RoomList : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
             enterNamePanel.SetActive(false);
+
 
             Debug.Log("Player name set to: " + playerName);
         }
@@ -520,6 +535,10 @@ private static readonly Color32 NotReadyBtn = new Color32(0xFF, 0xFF, 0xFF, 0xFF
             PhotonNetwork.CurrentRoom.IsVisible = false;
             PhotonNetwork.LoadLevel("Game");
         }
+     
+         musicSource.Stop();
+       
+    
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
