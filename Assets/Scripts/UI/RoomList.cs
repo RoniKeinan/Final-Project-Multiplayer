@@ -23,9 +23,8 @@ public class RoomList : MonoBehaviourPunCallbacks
     public GameObject roomsScreenHolder;
 
     [Header("BG Music")]
-    public GameObject MusicPlayer;
+    
     public AudioClip introMusicClip;
-    private AudioSource musicSource;
 
     [Header("Name Entry Panel")]
     public GameObject enterNamePanel;
@@ -93,15 +92,11 @@ public class RoomList : MonoBehaviourPunCallbacks
         maxPlayersDropdown.AddOptions(options);
         maxPlayersDropdown.value = 0; // default is 1 player
         charPanel.gameObject.SetActive(false);
-       
-        
-        musicSource = MusicPlayer.GetComponentInChildren<AudioSource>();
 
-        if (musicSource != null && introMusicClip != null)
+
+        if (introMusicClip != null)
         {
-            musicSource.clip = introMusicClip;
-            musicSource.Play();
-          
+            MusicSettingsManager.Instance.PlayMusic(introMusicClip);
         }
 
 
@@ -535,10 +530,13 @@ private static readonly Color32 NotReadyBtn = new Color32(0xFF, 0xFF, 0xFF, 0xFF
             PhotonNetwork.CurrentRoom.IsVisible = false;
             PhotonNetwork.LoadLevel("Game");
         }
-     
-         musicSource.Stop();
-       
-    
+
+        if (introMusicClip != null)
+        {
+            MusicSettingsManager.Instance.StopMusic();
+        }
+
+
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
