@@ -47,11 +47,11 @@ public class ChestOpener : MonoBehaviourPun
     [PunRPC]
     void OpenChest()
     {
+        if (isOpen) return; // Prevent running multiple times
         isOpen = true;
+
         Debug.Log("🧰 Chest is opened!");
-
-        chestOpen.SetBool("isOpen",true);
-
+        chestOpen.SetBool("isOpen", true);
         audioSource.PlayOneShot(victory);
 
         GameTimer timer = Object.FindFirstObjectByType<GameTimer>();
@@ -61,16 +61,16 @@ public class ChestOpener : MonoBehaviourPun
             PlayerPrefs.SetString("time", Mathf.RoundToInt(timer.GetTime()).ToString());
         }
 
-        if (leaderboardManager != null)
+        // ✅ Only MasterClient sends data to Firebase
+        if (PhotonNetwork.IsMasterClient && leaderboardManager != null)
         {
             leaderboardManager.OnLastRiddleSolved();
         }
         else
         {
-            Debug.LogError("❌ LeaderBoardManager is not assigned or found.");
+            Debug.Log("⏩ Not master, skipping Firebase score save.");
         }
-
     }
 
- 
+
 }
