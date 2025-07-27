@@ -22,6 +22,9 @@ public class RoomList : MonoBehaviourPunCallbacks
     public GameObject chooseRoomTitle;
     public GameObject roomsScreenHolder;
 
+    [Header("BG Music")]
+    public GameObject MusicPlayer;
+
     [Header("Name Entry Panel")]
     public GameObject enterNamePanel;
     public Button SetNameButton;
@@ -88,6 +91,7 @@ public class RoomList : MonoBehaviourPunCallbacks
         maxPlayersDropdown.AddOptions(options);
         maxPlayersDropdown.value = 0; // default is 1 player
         charPanel.gameObject.SetActive(false);
+        DontDestroyOnLoad(MusicPlayer);
 
 
         PhotonNetwork.ConnectUsingSettings();
