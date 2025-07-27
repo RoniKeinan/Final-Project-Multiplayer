@@ -8,6 +8,9 @@ public class ChestOpener : MonoBehaviourPun
 {
     private bool isOpen = false;
     public Animator chestOpen;
+    [SerializeField] private AudioClip victory;
+    [SerializeField] private AudioSource audioSource;
+
 
     public LeaderBoardManager leaderboardManager;
     private void OnTriggerEnter(Collider other)
@@ -24,6 +27,8 @@ public class ChestOpener : MonoBehaviourPun
 
                 if (holder.HasKey)
                 {
+                    audioSource.PlayOneShot(victory);
+
                     photonView.RPC("OpenChest", RpcTarget.All);
                     Debug.Log("open chest ksksks");
                 }
