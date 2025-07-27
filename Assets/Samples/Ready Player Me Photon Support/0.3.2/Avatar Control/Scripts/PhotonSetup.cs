@@ -18,10 +18,10 @@ namespace ReadyPlayerMe.PhotonSupport
         [SerializeField] private GameObject loadingPanel;   // Panel to show at start (set it active in the scene)
         [SerializeField] private float loadingTime = 5f;     // Seconds to keep the loading panel
 
+      
         [Header("BG Music")]
-        public GameObject MusicPlayer;
-        public AudioClip BGmusic;
-        private AudioSource musicSource;
+
+        public AudioClip gameMusicClip;
 
 
         [Header("Avatar")]
@@ -49,14 +49,11 @@ namespace ReadyPlayerMe.PhotonSupport
             InitGame();
             StartCoroutine(HideLoadingAfterDelay());
 
-            musicSource = MusicPlayer.GetComponentInChildren<AudioSource>();
-
-            if (musicSource != null && BGmusic  != null)
+            if (gameMusicClip != null)
             {
-                musicSource.clip = BGmusic;
-                musicSource.Play();
-               
+                MusicSettingsManager.Instance.PlayMusic(gameMusicClip);
             }
+
         }
 
         private void Update()

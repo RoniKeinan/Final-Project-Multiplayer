@@ -19,7 +19,7 @@ public class MusicSettingsManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Persist between scenes
+        
     }
 
     void Start()
@@ -55,5 +55,18 @@ public class MusicSettingsManager : MonoBehaviour
     {
         musicSource.volume = value;
         PlayerPrefs.SetFloat("MusicVolume", value);
+    }
+
+    public void PlayMusic(AudioClip clip)
+    {
+        if (clip == null) return;
+
+        musicSource.clip = clip;
+        musicSource.Play();
+    }
+
+    public void StopMusic()
+    {
+        musicSource.Stop();
     }
 }
