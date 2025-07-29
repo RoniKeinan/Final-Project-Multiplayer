@@ -35,6 +35,7 @@ The game consists of two main Unity scenes:
 | **MatchData.cs**       | Data model for storing player scores          | Constructor & JSON serialization     |
 
 ## 📸 ScreenShots
-![text](Images/Screenshot%202025-07-19%20224614.png)
 ![text](Images/Screenshot%202025-07-29%20103035.png)
 ![text](Images/Screenshot%202025-07-29%20103712.png)
+![text](Images/Screenshot%202025-07-19%20224614.png)
+
